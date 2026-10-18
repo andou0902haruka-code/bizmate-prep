@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lesson 7 予習 — Talking about Your Products</title>
+<style>
+:root{--bg:#f6f7f9;--card:#fff;--ink:#1d2330;--sub:#6b7280;--line:#e3e6eb;--accent:#1a8ad4;--accent-soft:#e6f3fb;--hide:#eef1f5;--hide-ink:#8a94a3;--hint:#fff6e0;--hint-ink:#8a5a00;--ok:#2f9e5b}
+@media (prefers-color-scheme:dark){:root{--bg:#14171c;--card:#1d2128;--ink:#e8ebf0;--sub:#9aa3b0;--line:#2d333d;--accent:#5cb4ee;--accent-soft:#1c3142;--hide:#262b33;--hide-ink:#7d8796;--hint:#3a3020;--hint-ink:#f0c46a;--ok:#5ccf8a}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP",sans-serif;line-height:1.55;-webkit-text-size-adjust:100%}
+.wrap{max-width:760px;margin:0 auto;padding:8px 12px 48px}
+h1{font-size:1.05rem;margin:4px 0 2px;line-height:1.35}
+.meta{color:var(--sub);font-size:.75rem;margin-bottom:4px}
+.bar{position:sticky;top:0;z-index:5;background:var(--bg);padding:4px 0;border-bottom:1px solid var(--line);margin-bottom:6px}
+.row{display:flex;gap:4px;flex-wrap:wrap;margin:2px 0}
+.row .lb{font-size:.75rem;color:var(--sub);align-self:center;min-width:3em}
+.bar button,.chip{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:3px 9px;border-radius:999px;font-size:.75rem;cursor:pointer}
+.bar button.on,.chip.on{background:var(--accent);border-color:var(--accent);color:#fff}
+section{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin:6px 0}
+h2{font-size:.92rem;margin:0 0 4px;color:var(--accent)}
+h3{font-size:.82rem;margin:8px 0 2px;color:var(--sub)}
+.qs,.lead{color:var(--sub);font-size:.75rem;margin:0 0 4px}
+table{width:100%;border-collapse:collapse;font-size:.8rem}
+td,th{border-bottom:1px solid var(--line);padding:3px 4px;text-align:left;vertical-align:top}
+th{color:var(--sub);font-weight:600}
+ul,ol{margin:2px 0;padding-left:1.2em;font-size:.82rem}
+b{color:var(--accent)}
+.pair{margin:4px 0}
+.ja{font-size:.9rem}
+.see .en-v{padding:4px 8px;border-radius:6px;background:var(--accent-soft);font-size:.9rem}
+.see .ja-s{font-size:.85rem;color:var(--sub);margin:3px 2px 0}
+.en{margin-top:2px;padding:4px 8px;border-radius:6px;background:var(--accent-soft);cursor:pointer;font-size:.9rem;-webkit-tap-highlight-color:transparent;user-select:none}
+.en .txt{display:none}
+.en.s2 .txt{display:block}
+.en.s0{background:var(--hide)}
+.en.s0::before{content:"タップで英語";color:var(--hide-ink);font-size:.75rem}
+.say{float:right;margin-left:8px;border:none;background:none;color:var(--accent);font-size:1rem;cursor:pointer;padding:0 2px}
+.en.s0 .say{display:none}
+.scene{font-size:.75rem;color:var(--sub);margin-bottom:2px}
+.full .lbl{font-size:.7rem;color:var(--sub);margin-top:6px}
+.tag{display:inline-block;font-size:.7rem;padding:0 6px;border-radius:4px;background:var(--hide);color:var(--sub);margin-left:6px;vertical-align:middle}
+.ph{border-top:1px solid var(--line);padding:5px 0}
+.ph:first-of-type{border-top:none}
+.ph .top{display:flex;gap:8px;align-items:flex-start}
+.ph .top .ja{flex:1;font-weight:600}
+.ph .done{border:1px solid var(--line);background:var(--card);color:var(--sub);border-radius:6px;font-size:.78rem;padding:2px 8px;cursor:pointer;white-space:nowrap}
+.ph.isdone .done{background:var(--ok);border-color:var(--ok);color:#fff}
+.ph.isdone .top .ja{color:var(--sub)}
+.ph .note{font-size:.75rem;color:var(--sub);margin-top:2px}
+.ph .ex{font-size:.78rem;margin-top:1px}
+.hideDone .ph.isdone{display:none}
+.len{font-size:.72rem;color:var(--sub);margin-top:6px}
+.talk{display:none}.talk.on{display:block}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<script>
+const D = {"title": "Lesson 7 予習 — Talking about Your Products", "lesson": "Bizmates Level 1-D Lesson 7", "theme": "自分の大学の教育（サービス）を紹介する", "date": "2026-10-18", "see_lead": "When you talk about your products, try speaking in the following order.", "see": [{"heading": "Describing a product or service", "speaker": "Ayako", "en": "**One of our main services is called** First Ed. **It's basically** a training service that trains new employees on the rules and manners of workplaces."}, {"heading": "Introducing a feature", "speaker": "Ayako", "en": "**One key feature is** the role-play session. The trainees have real meetings and presentations."}, {"heading": "Promoting it", "speaker": "Ayako", "en": "**It's attractive because** it helps new employees become effective workers in just a few weeks."}], "talks": [{"name": "大学の教育", "scene": "教材「新入社員の集まりで、自社の製品・サービスを1つ説明する」→ 自分版「**北大生として、自分の大学の教育（船上実習のある授業）を1つのサービスとして紹介する**」", "sections": [{"heading": "Product or service", "lines": [{"ja": "私たちの主なサービスの一つは、質の高い教育です。", "en": "One of our main services is high-quality education."}, {"ja": "学生が知識とスキルを伸ばす手助けをします。", "en": "It helps students develop their knowledge and skills."}]}, {"heading": "Feature", "lines": [{"ja": "大きな特徴の一つは、実践的な授業です。", "en": "One key feature is our practical classes."}, {"ja": "たとえば、授業の一部として太平洋での船上実習を行っています。", "en": "For example, we offer **onboard training** in pacific ocean as part of our courses."}, {"ja": "学生は学ぶことができます。", "en": "Students can learn"}]}, {"heading": "Promoting it", "lines": [{"ja": "学生にかけがえのない経験を与え、自信をつける手助けをしてくれるので、魅力的です。それは将来の仕事で役に立ちます。", "en": "It's attractive because it gives students invaluable experience and help them **build confidence**, **which will be useful in their future careers**."}]}]}], "notes": ["Feature の最後が「Students can learn」で止まっています。ノート左の赤字をつなげると **Students can learn how ships navigate the ocean and experience the challenges of working at sea.** で完成します（ページはノートどおりのまま）。", "help them → **helps** them（主語は it なので gives と同じく -s が付く）。", "in pacific ocean → in **the Pacific Ocean**（海の名前は the＋大文字）。", "最後に That's all about our program. と締めると、評価基準「自分で話を切り上げる」に合います。", "ノート左の TRY（Netflix）は予習ページには載せていません。そこで出た赤字（exclusive content・feature graphic scenes・intense）は下の表現に入れています。"], "phrases": [{"tag": "ノート", "ja": "船がどうやって海を進むのか", "en": "**how ships navigate** the ocean", "ex": "Students can learn how ships navigate the ocean.", "note": "how＋主語＋動詞で名詞のかたまり。learn の目的語にすると Feature の続きになる。"}, {"tag": "ノート", "ja": "海で働く厳しさを体験する", "en": "**experience the challenges of** working at sea", "ex": "Students can experience the challenges of working at sea.", "note": "the challenges of doing＝〜することの大変さ。at sea は the を付けない。"}, {"tag": "ノート", "ja": "自信をつける", "en": "**build confidence**", "ex": "This training helps students build confidence.", "note": "help A do と組みやすい。gain confidence もほぼ同じ。"}, {"tag": "ノート", "ja": "それは将来の仕事で役立つ", "en": ", **which will be useful in** their future careers", "ex": "Students gain practical skills, which will be useful in their future careers.", "note": "コンマ＋which で前の内容全体を受けて付け足す。"}, {"tag": "ノート", "ja": "船上実習", "en": "**onboard training**", "ex": "We offer onboard training as part of our courses.", "note": "onboard＝船上の・機内の。"}, {"tag": "ノート", "ja": "独占作品", "en": "**exclusive content**", "ex": "Netflix has a lot of exclusive content.", "note": "content は数えないので contents にしない。"}, {"tag": "ノート", "ja": "グロテスクなシーンを含む", "en": "**feature graphic scenes**", "ex": "The movie features graphic scenes.", "note": "feature は動詞で「〜を含む・登場させる」。graphic＝描写が生々しい。"}, {"tag": "ノート", "ja": "過激な・激しい", "en": "**intense**", "note": "英単語ノートに既にある語（2026/09/02）。interesting and intense のように並べて使っていた。"}, {"tag": "ノート", "ja": "ビジネスに特化したカリキュラム", "en": "a **business-focused** curriculum", "ex": "The school offers a business-focused curriculum.", "note": "名詞＋-focused＝〜に特化した。research-focused なども同じ形。"}, {"tag": "テーマ", "ja": "〜したい学生向けに作られている", "en": "**is designed for** students who want to ~", "ex": "Our program is designed for students who want to work at sea.", "note": "誰向けのサービスかを最初に言うと伝わりやすい。"}, {"tag": "テーマ", "ja": "ほかと違うのは〜だ", "en": "**What makes it unique is** ~", "ex": "What makes it unique is the hands-on experience.", "note": "Feature で強みを強調する一文。hands-on＝体験型の。"}, {"tag": "テーマ", "ja": "実社会での経験を積む", "en": "**gain real-world experience**", "ex": "Students can gain real-world experience.", "note": "invaluable experience の言い換えとしても使える。"}, {"tag": "テーマ", "ja": "〜の間で特に人気がある", "en": "**is especially popular among** ~", "ex": "It's especially popular among international students.", "note": "Promoting it で人気を根拠にするときに。"}, {"tag": "テーマ", "ja": "ほかの〜と比べて", "en": "**Compared to** other programs, ~", "ex": "Compared to other programs, it offers more practical training.", "note": "後ろは比較級（more practical）と組みやすい。"}], "audio": {"One of our main services is called First Ed. It's basically a training service that trains new employees on the rules and manners of workplaces.": "audio_1-D-07_予習/dc22895a7552.mp3", "One key feature is the role-play session. The trainees have real meetings and presentations.": "audio_1-D-07_予習/905f578c0613.mp3", "It's attractive because it helps new employees become effective workers in just a few weeks.": "audio_1-D-07_予習/204d8d9a91e4.mp3", "how ships navigate the ocean": "audio_1-D-07_予習/50c65fee1913.mp3", "experience the challenges of working at sea": "audio_1-D-07_予習/470cda49b4d2.mp3", "build confidence": "audio_1-D-07_予習/2d3def9a11ca.mp3", ", which will be useful in their future careers": "audio_1-D-07_予習/881c4c979cc7.mp3", "onboard training": "audio_1-D-07_予習/ed5755e77443.mp3", "exclusive content": "audio_1-D-07_予習/8851831b8f71.mp3", "feature graphic scenes": "audio_1-D-07_予習/ea6b426aeba5.mp3", "intense": "audio_1-D-07_予習/e121ada10167.mp3", "a business-focused curriculum": "audio_1-D-07_予習/9cec10a60ffe.mp3", "is designed for students who want to ~": "audio_1-D-07_予習/abc999e751d1.mp3", "What makes it unique is ~": "audio_1-D-07_予習/92815b89d674.mp3", "gain real-world experience": "audio_1-D-07_予習/51d43e98a148.mp3", "is especially popular among ~": "audio_1-D-07_予習/fa20a6b88442.mp3", "Compared to other programs, ~": "audio_1-D-07_予習/0cefd9aefe0e.mp3", "One of our main services is high-quality education. It helps students develop their knowledge and skills.": "audio_1-D-07_予習/3c41bdbfbf78.mp3", "One key feature is our practical classes. For example, we offer onboard training in pacific ocean as part of our courses. Students can learn": "audio_1-D-07_予習/7b2620f38f03.mp3", "It's attractive because it gives students invaluable experience and help them build confidence, which will be useful in their future careers.": "audio_1-D-07_予習/27bb5af3696c.mp3"}};
+const KEY = "bizprep_" + D.lesson;
+const store = { get(k, d){ try{ const v = localStorage.getItem(KEY + k); return v == null ? d : JSON.parse(v); }catch(e){ return d; } },
+                set(k, v){ try{ localStorage.setItem(KEY + k, JSON.stringify(v)); }catch(e){} } };
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const md = s => esc(s).replace(/\*\*(.+?)\*\*/g, "<b>$1</b>").replace(/\*(.+?)\*/g, "<i>$1</i>");
+const plain = s => String(s ?? "").replace(/\*/g, "");
+const say = t => `<button class="say" aria-label="読み上げ" data-say="${esc(plain(t))}">🔊</button>`;
+const en = text => `<div class="en s0">${say(text)}<span class="txt">${md(text)}</span></div>`;
+const list = (arr, tag = "ul") => `<${tag}>${arr.map(x => `<li>${md(x)}</li>`).join("")}</${tag}>`;
+
+const talks = D.talks || [];
+let h = `<h1>${esc(D.title)}</h1><div class="meta">${esc(D.lesson)}　｜　テーマ: ${esc(D.theme)}　｜　作成日: ${esc(D.date)}</div>`;
+h += `<div class="bar">`;
+if (talks.length > 1) h += `<div class="row"><span class="lb">内容</span>${talks.map((t, i) => `<button class="tabBtn" data-i="${i}">${esc(t.name)}</button>`).join("")}</div>`;
+h += `<div class="row"><span class="lb">英語</span><button class="modeBtn" data-s="0">全部隠す</button><button class="modeBtn" data-s="2">全部表示</button></div></div>`;
+
+// SEE 全文
+if (D.see?.length) {
+  h += `<section class="see"><h2>SEE — 教材の全文</h2>${D.see_lead ? `<div class="lead">${md(D.see_lead)}</div>` : ""}`;
+  D.see.forEach(s => {
+    if (s.heading) h += `<h3>${esc(s.heading)}</h3>`;
+    h += `<div class="pair"><div class="en-v">${say(s.en)}${s.speaker ? `<span class="tag" style="margin:0 6px 0 0">${esc(s.speaker)}</span>` : ""}${md(s.en)}</div></div>`;
+  });
+  h += `</section>`;
+}
+
+talks.forEach((t, ti) => {
+  h += `<div class="talk" data-i="${ti}">`;
+  h += `<section><h2>ACT — 話す文<span class="tag">${esc(t.name)}</span></h2>${t.scene ? `<div class="scene">場面: ${md(t.scene)}</div>` : ""}`;
+  h += `<div class="full">`;
+  t.sections.forEach(s => h += `<div class="pair">${s.heading ? `<div class="lbl">${esc(s.heading)}</div>` : ""}<div class="ja">${md(s.lines.map(l => l.ja).join(""))}</div>${en(s.lines.map(l => l.en).join(" "))}</div>`);
+  // 話す長さの目安（1分 ≒ 130語）
+  const words = t.sections.flatMap(s => s.lines.map(l => plain(l.en))).join(" ").split(/\s+/).filter(Boolean).length;
+  const sec = Math.round(words / 130 * 60);
+  h += `<div class="len">約${words}語 ・ 話すと約${Math.floor(sec / 60)}分${String(sec % 60).padStart(2, "0")}秒</div>`;
+  h += `</div></section>`;
+  h += `</div>`;
+});
+
+if (D.alts?.length) {
+  h += `<section><h2>言い換えストック</h2><table><tr><th>表現</th><th>別の言い方</th></tr>`;
+  D.alts.forEach(a => h += `<tr><td>${md(a.from)}</td><td>${md(a.to)}</td></tr>`);
+  h += `</table></section>`;
+}
+if (D.notes?.length) h += `<section><h2>メモ</h2>${list(D.notes)}</section>`;
+
+// 今回覚えたい英語表現
+if (D.phrases?.length) {
+  h += `<section id="phSec"><h2>今回覚えたい英語表現</h2><div class="lead">日本語を見て英語を言ってみる → タップで確認。言えたら「覚えた」。</div>`;
+  h += `<div class="row" style="margin-bottom:6px"><button class="chip" id="hideDoneBtn">覚えたものを隠す</button><span class="lb" id="phCount"></span></div>`;
+  D.phrases.forEach((p, i) => {
+    h += `<div class="ph" data-i="${i}"><div class="top"><div class="ja">${md(p.ja)}${p.tag ? `<span class="tag">${esc(p.tag)}</span>` : ""}</div><button class="done">覚えた</button></div>${en(p.en)}`;
+    if (p.note) h += `<div class="note">💡 ${md(p.note)}</div>`;
+    if (p.ex) h += `<div class="ex">例: ${md(p.ex)}</div>`;
+    h += `</div>`;
+  });
+  h += `</section>`;
+}
+
+const app = document.getElementById("app");
+app.innerHTML = h;
+
+// 読み上げ
+// 読み上げ: 事前生成mp3（edge-tts Andrew）→ 無ければブラウザ読み上げ
+let curAudio = null;
+function speak(t){
+  if (curAudio){ curAudio.pause(); curAudio = null; }
+  try{ speechSynthesis.cancel(); }catch(e){}
+  const src = (D.audio || {})[t];
+  if (src){ curAudio = new Audio(src); curAudio.play().catch(() => {}); return; }
+  try{ const u = new SpeechSynthesisUtterance(t); u.lang = "en-US"; u.rate = 0.95; speechSynthesis.speak(u); }catch(e){}
+}
+const setState = (el, s) => { el.classList.remove("s0", "s2"); el.classList.add("s" + s); };
+document.addEventListener("click", e => {
+  const sb = e.target.closest(".say"); if (sb){ e.stopPropagation(); speak(sb.dataset.say); return; }
+  const b = e.target.closest(".en"); if (b) setState(b, b.classList.contains("s0") ? 2 : 0);
+});
+// 全部隠す／ヒント／全部表示
+const modeBtns = [...document.querySelectorAll(".modeBtn")];
+const setAll = s => { document.querySelectorAll(".en").forEach(x => setState(x, s)); modeBtns.forEach(m => m.classList.toggle("on", +m.dataset.s === s)); };
+modeBtns.forEach(m => m.onclick = () => setAll(+m.dataset.s));
+modeBtns[0].classList.add("on");
+// パターン切り替え
+const tabBtns = [...document.querySelectorAll(".tabBtn")];
+const showTalk = i => { document.querySelectorAll(".talk").forEach(t => t.classList.toggle("on", +t.dataset.i === i)); tabBtns.forEach(b => b.classList.toggle("on", +b.dataset.i === i)); store.set("tab", i); };
+tabBtns.forEach(b => b.onclick = () => showTalk(+b.dataset.i));
+showTalk(Math.min(store.get("tab", 0), Math.max(talks.length - 1, 0)));
+// 覚えた
+const phSec = document.getElementById("phSec");
+if (phSec) {
+  let done = store.get("done", []);
+  const refresh = () => { phSec.querySelectorAll(".ph").forEach(p => p.classList.toggle("isdone", done.includes(+p.dataset.i))); document.getElementById("phCount").textContent = `覚えた ${done.length} / ${D.phrases.length}`; };
+  phSec.querySelectorAll(".done").forEach(btn => btn.onclick = () => { const i = +btn.closest(".ph").dataset.i; done = done.includes(i) ? done.filter(x => x !== i) : [...done, i]; store.set("done", done); refresh(); });
+  const hdb = document.getElementById("hideDoneBtn");
+  hdb.onclick = () => { const on = !phSec.classList.contains("hideDone"); phSec.classList.toggle("hideDone", on); hdb.classList.toggle("on", on); };
+  refresh();
+}
+</script>
+</body>
+</html>
