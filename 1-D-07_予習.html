@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Lesson 7 予習 — Talking about Your Products</title>
 <style>
-:root{--bg:#f6f7f9;--card:#fff;--ink:#1d2330;--sub:#6b7280;--line:#e3e6eb;--accent:#1a8ad4;--accent-soft:#e6f3fb;--hide:#eef1f5;--hide-ink:#8a94a3;--hint:#fff6e0;--hint-ink:#8a5a00;--ok:#2f9e5b}
-@media (prefers-color-scheme:dark){:root{--bg:#14171c;--card:#1d2128;--ink:#e8ebf0;--sub:#9aa3b0;--line:#2d333d;--accent:#5cb4ee;--accent-soft:#1c3142;--hide:#262b33;--hide-ink:#7d8796;--hint:#3a3020;--hint-ink:#f0c46a;--ok:#5ccf8a}}
+:root{--bg:#f6f7f9;--card:#fff;--ink:#1d2330;--sub:#6b7280;--line:#e3e6eb;--accent:#1a8ad4;--accent-soft:#e6f3fb;--hide:#eef1f5;--hide-ink:#8a94a3;--hint:#fff6e0;--hint-ink:#8a5a00;--ok:#2f9e5b;--src-note:#d23b3b;--src-note-soft:#fdeeee;--src-theme:#7b4fd1;--src-theme-soft:#f2edfc}
+@media (prefers-color-scheme:dark){:root{--bg:#14171c;--card:#1d2128;--ink:#e8ebf0;--sub:#9aa3b0;--line:#2d333d;--accent:#5cb4ee;--accent-soft:#1c3142;--hide:#262b33;--hide-ink:#7d8796;--hint:#3a3020;--hint-ink:#f0c46a;--ok:#5ccf8a;--src-note:#f07a7a;--src-note-soft:#3a2224;--src-theme:#b39af0;--src-theme-soft:#2c2540}}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP",sans-serif;line-height:1.55;-webkit-text-size-adjust:100%}
 .wrap{max-width:760px;margin:0 auto;padding:8px 12px 48px}
@@ -52,6 +52,14 @@ b{color:var(--accent)}
 .hideDone .ph.isdone{display:none}
 .len{font-size:.72rem;color:var(--sub);margin-top:6px}
 .talk{display:none}.talk.on{display:block}
+/* 今回覚えたい表現: 出どころで色分け（ノート＝赤ペンの赤／テーマ＝紫） */
+.ph.src-note,.ph.src-theme{border-top:none;border-left:4px solid;border-radius:6px;padding:5px 8px;margin:6px 0}
+.ph.src-note{border-left-color:var(--src-note);background:var(--src-note-soft)}
+.ph.src-theme{border-left-color:var(--src-theme);background:var(--src-theme-soft)}
+.ph.src-note .tag{background:var(--src-note);color:#fff}
+.ph.src-theme .tag{background:var(--src-theme);color:#fff}
+.legend{display:flex;gap:10px;flex-wrap:wrap;font-size:.72rem;color:var(--sub);margin:0 0 6px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px;vertical-align:-1px}
 </style>
 </head>
 <body>
@@ -102,20 +110,23 @@ if (D.alts?.length) {
   D.alts.forEach(a => h += `<tr><td>${md(a.from)}</td><td>${md(a.to)}</td></tr>`);
   h += `</table></section>`;
 }
-if (D.notes?.length) h += `<section><h2>メモ</h2>${list(D.notes)}</section>`;
-
 // 今回覚えたい英語表現
 if (D.phrases?.length) {
   h += `<section id="phSec"><h2>今回覚えたい英語表現</h2><div class="lead">日本語を見て英語を言ってみる → タップで確認。言えたら「覚えた」。</div>`;
+  const srcCls = t => t === "ノート" ? "src-note" : t === "テーマ" ? "src-theme" : "";
+  const tags = new Set(D.phrases.map(p => p.tag));
+  if (tags.has("ノート") || tags.has("テーマ"))
+    h += `<div class="legend">${tags.has("ノート") ? `<span><i style="background:var(--src-note)"></i>ノート＝授業ノートの赤字</span>` : ""}${tags.has("テーマ") ? `<span><i style="background:var(--src-theme)"></i>テーマ＝Claudeが考えたテーマの表現</span>` : ""}</div>`;
   h += `<div class="row" style="margin-bottom:6px"><button class="chip" id="hideDoneBtn">覚えたものを隠す</button><span class="lb" id="phCount"></span></div>`;
   D.phrases.forEach((p, i) => {
-    h += `<div class="ph" data-i="${i}"><div class="top"><div class="ja">${md(p.ja)}${p.tag ? `<span class="tag">${esc(p.tag)}</span>` : ""}</div><button class="done">覚えた</button></div>${en(p.en)}`;
+    h += `<div class="ph ${srcCls(p.tag)}" data-i="${i}"><div class="top"><div class="ja">${md(p.ja)}${p.tag ? `<span class="tag">${esc(p.tag)}</span>` : ""}</div><button class="done">覚えた</button></div>${en(p.en)}`;
     if (p.note) h += `<div class="note">💡 ${md(p.note)}</div>`;
     if (p.ex) h += `<div class="ex">例: ${md(p.ex)}</div>`;
     h += `</div>`;
   });
   h += `</section>`;
 }
+if (D.notes?.length) h += `<section><h2>メモ</h2>${list(D.notes)}</section>`;
 
 const app = document.getElementById("app");
 app.innerHTML = h;
