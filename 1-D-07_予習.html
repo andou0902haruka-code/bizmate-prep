@@ -3,63 +3,145 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
 <title>Lesson 7 予習 — Talking about Your Products</title>
 <style>
-:root{--bg:#f6f7f9;--card:#fff;--ink:#1d2330;--sub:#6b7280;--line:#e3e6eb;--accent:#1a8ad4;--accent-soft:#e6f3fb;--hide:#eef1f5;--hide-ink:#8a94a3;--hint:#fff6e0;--hint-ink:#8a5a00;--ok:#2f9e5b;--src-note:#d23b3b;--src-note-soft:#fdeeee;--src-theme:#7b4fd1;--src-theme-soft:#f2edfc}
-@media (prefers-color-scheme:dark){:root{--bg:#14171c;--card:#1d2128;--ink:#e8ebf0;--sub:#9aa3b0;--line:#2d333d;--accent:#5cb4ee;--accent-soft:#1c3142;--hide:#262b33;--hide-ink:#7d8796;--hint:#3a3020;--hint-ink:#f0c46a;--ok:#5ccf8a;--src-note:#f07a7a;--src-note-soft:#3a2224;--src-theme:#b39af0;--src-theme-soft:#2c2540}}
+/* 学習ノート風: 落ち着いた紙色＋青のアクセント。色はすべてここで管理 */
+:root{
+  --bg:#f4f3ef;--card:#fffefb;--ink:#1e2228;--sub:#4a515c;--faint:#6a717c;--line:#dcd9d0;--line-soft:#e9e6de;
+  --accent:#1d66a8;--accent-ink:#17599a;--accent-soft:#e7f0f8;--on-accent:#fff;
+  --hide:#eceae3;--hide-ink:#5f6672;--ok:#21754a;--ok-soft:#e5f2ea;--on-ok:#fff;
+  --src-note:#b8352a;--src-note-soft:#fbefed;--on-note:#fff;
+  --src-theme:#6a45bd;--src-theme-soft:#f3eefb;--on-theme:#fff;
+  --focus:#e08a00;--bar-h:56px;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#15171b;--card:#1d2026;--ink:#e8eaed;--sub:#b4bac3;--faint:#99a0aa;--line:#353a44;--line-soft:#2a2e36;
+  --accent:#72b4ec;--accent-ink:#8cc3f2;--accent-soft:#1d2e3f;--on-accent:#0f1720;
+  --hide:#272b32;--hide-ink:#a3aab4;--ok:#57c486;--ok-soft:#1d3127;--on-ok:#0e1a13;
+  --src-note:#f0897f;--src-note-soft:#33201f;--on-note:#1a0f0e;
+  --src-theme:#b8a0f3;--src-theme-soft:#29233c;--on-theme:#150f24;
+  --focus:#ffb547;
+}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP",sans-serif;line-height:1.55;-webkit-text-size-adjust:100%}
-.wrap{max-width:760px;margin:0 auto;padding:8px 12px 48px}
-h1{font-size:1.05rem;margin:4px 0 2px;line-height:1.35}
-.meta{color:var(--sub);font-size:.75rem;margin-bottom:4px}
-.bar{position:sticky;top:0;z-index:5;background:var(--bg);padding:4px 0;border-bottom:1px solid var(--line);margin-bottom:6px}
-.row{display:flex;gap:4px;flex-wrap:wrap;margin:2px 0}
-.row .lb{font-size:.75rem;color:var(--sub);align-self:center;min-width:3em}
-.bar button,.chip{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:3px 9px;border-radius:999px;font-size:.75rem;cursor:pointer}
-.bar button.on,.chip.on{background:var(--accent);border-color:var(--accent);color:#fff}
-section{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin:6px 0}
-h2{font-size:.92rem;margin:0 0 4px;color:var(--accent)}
-h3{font-size:.82rem;margin:8px 0 2px;color:var(--sub)}
-.qs,.lead{color:var(--sub);font-size:.75rem;margin:0 0 4px}
-table{width:100%;border-collapse:collapse;font-size:.8rem}
-td,th{border-bottom:1px solid var(--line);padding:3px 4px;text-align:left;vertical-align:top}
-th{color:var(--sub);font-weight:600}
-ul,ol{margin:2px 0;padding-left:1.2em;font-size:.82rem}
-b{color:var(--accent)}
-.pair{margin:4px 0}
-.ja{font-size:.9rem}
-.see .en-v{padding:4px 8px;border-radius:6px;background:var(--accent-soft);font-size:.9rem}
-.see .ja-s{font-size:.85rem;color:var(--sub);margin:3px 2px 0}
-.en{margin-top:2px;padding:4px 8px;border-radius:6px;background:var(--accent-soft);cursor:pointer;font-size:.9rem;-webkit-tap-highlight-color:transparent;user-select:none}
+html{-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;font-size:clamp(1rem,.94rem + .3vw,1.125rem);line-height:1.75}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:6px}
+.wrap{max-width:880px;margin:0 auto;padding:0 16px 64px}
+p{margin:0}
+b{color:var(--accent-ink);font-weight:700}
+
+/* ページ見出し */
+.head{padding:20px 0 12px}
+h1{font-size:1.4em;line-height:1.4;margin:0 0 6px;font-weight:700}
+.meta{color:var(--sub);font-size:.875em;line-height:1.6}
+
+/* 固定バー: 目次（既存の見出し）＋英語の全体切り替え。1行・高さ約56px */
+.bar{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px solid var(--line);margin:0 -16px;padding:8px 16px;display:flex;align-items:center;gap:8px;min-height:var(--bar-h)}
+.toc{display:flex;gap:2px;flex:1;min-width:0;overflow-x:auto;scrollbar-width:none}
+.toc::-webkit-scrollbar{display:none}
+.toc.ovf{-webkit-mask-image:linear-gradient(to right,#000 calc(100% - 24px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 24px),transparent)}
+.toc a{flex:none;display:inline-flex;align-items:center;min-height:40px;padding:0 10px;border-radius:8px;color:var(--sub);text-decoration:none;font-size:.875em;font-weight:600;white-space:nowrap}
+.toc a:hover{background:var(--hide);color:var(--ink)}
+.toc a[aria-current="true"]{color:var(--accent-ink);background:var(--accent-soft)}
+.toc .long{font-weight:500}
+@media (max-width:719px){.toc .long{display:none}.toc a{padding:0 6px}.seg button{padding:0 8px;font-size:.8125em}}
+.seg{flex:none;display:flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--card)}
+.seg button{border:0;background:none;min-height:40px;padding:0 12px;font-size:.875em;font-weight:600;cursor:pointer;color:var(--sub);white-space:nowrap}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--on-accent)}
+.seg .lb{display:none}
+@media (min-width:720px){.seg .lb{display:inline-flex;align-items:center;padding:0 4px 0 12px;font-size:.8125em;color:var(--faint)}}
+
+/* セクション: 見出しで大きく区切る（カードは1セクション1枚だけ） */
+.sec{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 24px 24px;margin:20px 0;scroll-margin-top:calc(var(--bar-h) + 12px)}
+@media (max-width:599px){.sec{padding:16px 16px 20px;margin:16px 0;border-radius:10px}}
+h2{font-size:1.3em;line-height:1.4;margin:0 0 12px;padding-bottom:10px;border-bottom:2px solid var(--line-soft);display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px}
+h2 .k{color:var(--accent-ink)}
+h3{font-size:1em;line-height:1.5;margin:0;font-weight:700}
+.lead{color:var(--sub);font-size:.9375em;margin:0 0 14px}
+.tag{display:inline-flex;align-items:center;font-size:.75rem;line-height:1;font-weight:600;padding:4px 8px;border-radius:5px;background:var(--hide);color:var(--hide-ink);white-space:nowrap;vertical-align:middle}
+h2 .tag{font-size:.8125rem}
+
+/* 読み上げボタン（英文の開閉とは別のボタン） */
+.say{flex:none;display:inline-flex;align-items:center;justify-content:center;gap:4px;min-width:44px;min-height:44px;padding:0 8px;border:1px solid var(--line);border-radius:10px;background:var(--card);cursor:pointer;font-size:1rem;line-height:1}
+.say:hover{border-color:var(--accent);background:var(--accent-soft)}
+.say.playing{border-color:var(--accent);background:var(--accent-soft);box-shadow:inset 0 0 0 1px var(--accent)}
+.say .sl{font-size:.8125rem;font-weight:600;color:var(--sub)}
+
+/* SEE: 常に表示 */
+.see-it{padding:14px 0;border-top:1px solid var(--line-soft)}
+.see-it:first-of-type{border-top:0;padding-top:4px}
+.see-it.cont{border-top:0;padding-top:0}
+.see-it h3{margin-bottom:6px;color:var(--sub)}
+.see-row{display:flex;gap:12px;align-items:flex-start}
+.see-en{flex:1;min-width:0;font-size:1.0625em;line-height:1.8;overflow-wrap:anywhere}
+.see-en .tag{margin-right:8px;vertical-align:2px}
+
+/* 英文の開閉（ACT・表現）: タップ／Enter／Spaceで 隠す⇄全文 */
+.en{flex:1;min-width:0;border-radius:8px;padding:10px 14px;background:var(--accent-soft);border:1px solid transparent;cursor:pointer;font-size:1.0625em;line-height:1.75;overflow-wrap:anywhere;-webkit-tap-highlight-color:transparent;user-select:text}
 .en .txt{display:none}
-.en.s2 .txt{display:block}
-.en.s0{background:var(--hide)}
-.en.s0::before{content:"タップで英語";color:var(--hide-ink);font-size:.75rem}
-.say{float:right;margin-left:8px;border:none;background:none;color:var(--accent);font-size:1rem;cursor:pointer;padding:0 2px}
-.en.s0 .say{display:none}
-.scene{font-size:.75rem;color:var(--sub);margin-bottom:2px}
-.full .lbl{font-size:.7rem;color:var(--sub);margin-top:6px}
-.tag{display:inline-block;font-size:.7rem;padding:0 6px;border-radius:4px;background:var(--hide);color:var(--sub);margin-left:6px;vertical-align:middle}
-.ph{border-top:1px solid var(--line);padding:5px 0}
-.ph:first-of-type{border-top:none}
-.ph .top{display:flex;gap:8px;align-items:flex-start}
-.ph .top .ja{flex:1;font-weight:600}
-.ph .done{border:1px solid var(--line);background:var(--card);color:var(--sub);border-radius:6px;font-size:.78rem;padding:2px 8px;cursor:pointer;white-space:nowrap}
-.ph.isdone .done{background:var(--ok);border-color:var(--ok);color:#fff}
-.ph.isdone .top .ja{color:var(--sub)}
-.ph .note{font-size:.75rem;color:var(--sub);margin-top:2px}
-.ph .ex{font-size:.78rem;margin-top:1px}
-.hideDone .ph.isdone{display:none}
-.len{font-size:.72rem;color:var(--sub);margin-top:6px}
+.en .hint{display:none;color:var(--hide-ink);font-size:.8125rem;font-weight:600;line-height:1.75}
+.en.s2 .txt{display:inline}
+.en.s0{background:var(--hide);border:1px dashed var(--line);user-select:none}
+.en.s0 .hint{display:inline}
+.en:hover{border-color:var(--accent)}
+
+/* ACT */
+.talk-tabs{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
+.chip{display:inline-flex;align-items:center;min-height:40px;padding:0 14px;border:1px solid var(--line);border-radius:999px;background:var(--card);cursor:pointer;font-size:.875em;font-weight:600;color:var(--sub)}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
 .talk{display:none}.talk.on{display:block}
-/* 今回覚えたい表現: 出どころで色分け（ノート＝赤ペンの赤／テーマ＝紫） */
-.ph.src-note,.ph.src-theme{border-top:none;border-left:4px solid;border-radius:6px;padding:5px 8px;margin:6px 0}
-.ph.src-note{border-left-color:var(--src-note);background:var(--src-note-soft)}
-.ph.src-theme{border-left-color:var(--src-theme);background:var(--src-theme-soft)}
-.ph.src-note .tag{background:var(--src-note);color:#fff}
-.ph.src-theme .tag{background:var(--src-theme);color:#fff}
-.legend{display:flex;gap:10px;flex-wrap:wrap;font-size:.72rem;color:var(--sub);margin:0 0 6px}
-.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px;vertical-align:-1px}
+.scene{color:var(--sub);font-size:.9375em;margin:0 0 14px;padding:8px 12px;border-left:3px solid var(--line);background:var(--bg);border-radius:0 6px 6px 0}
+.blk{padding:14px 0 6px;border-top:1px solid var(--line-soft)}
+.blk:first-of-type{border-top:0;padding-top:2px}
+.blk-head{display:flex;align-items:center;gap:10px;margin:0 0 10px}
+.blk-head h3{flex:1;min-width:0;display:flex;align-items:center;gap:8px}
+.blk-head h3::before{content:"";flex:none;width:4px;height:1.1em;border-radius:2px;background:var(--accent)}
+.pair{display:grid;gap:6px;margin:0 0 14px}
+.pair .ja{font-size:1em;line-height:1.8}
+@media (min-width:860px){.pair{grid-template-columns:1fr 1fr;gap:16px;align-items:start}.pair .ja{padding-top:10px}}
+.len{color:var(--sub);font-size:.875em;margin-top:6px;padding-top:10px;border-top:1px solid var(--line-soft)}
+
+/* 言い換えストック */
+.tbl{width:100%;border-collapse:collapse;font-size:.9375em;table-layout:fixed}
+.tbl th,.tbl td{border-bottom:1px solid var(--line-soft);padding:8px 6px;text-align:left;vertical-align:top;overflow-wrap:anywhere}
+.tbl th{color:var(--sub);font-weight:600;font-size:.875em}
+
+/* 今回覚えたい表現: 出どころで色分け（ノート＝赤ペンの赤／テーマ＝紫）＋タグの文字 */
+.legend{display:flex;gap:6px 16px;flex-wrap:wrap;font-size:.875em;color:var(--sub);margin:0 0 12px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px}
+.phtools{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;margin:0 0 12px}
+.count{font-size:.9375em;font-weight:700;color:var(--ink)}
+.count .bar-mini{display:inline-block;vertical-align:middle;width:80px;height:6px;border-radius:3px;background:var(--hide);margin-left:8px;overflow:hidden}
+.count .bar-mini span{display:block;height:100%;background:var(--ok)}
+.ph{border:1px solid var(--line);border-left:5px solid var(--line);border-radius:10px;padding:12px 14px 14px;margin:0 0 12px;background:var(--card)}
+.ph.src-note{border-left-color:var(--src-note)}
+.ph.src-theme{border-left-color:var(--src-theme)}
+.ph.src-note .tag{background:var(--src-note);color:var(--on-note)}
+.ph.src-theme .tag{background:var(--src-theme);color:var(--on-theme)}
+.ph-head{display:flex;align-items:flex-start;gap:10px;margin:0 0 8px}
+.ph-head .tag{margin-top:5px}
+.ph-head .ja{flex:1;min-width:0;font-weight:700;font-size:1.0625em;line-height:1.6;padding-top:1px}
+.done{flex:none;min-height:40px;padding:0 12px;border:1.5px solid var(--line);border-radius:10px;background:var(--card);color:var(--sub);font-size:.875em;font-weight:700;cursor:pointer;white-space:nowrap}
+.done:hover{border-color:var(--ok);color:var(--ok)}
+.done[aria-pressed="true"]{background:var(--ok);border-color:var(--ok);color:var(--on-ok)}
+.ph.isdone{background:var(--ok-soft)}
+.en-row{display:flex;gap:8px;align-items:flex-start}
+.ph-sub{margin-top:10px;padding-left:2px;display:grid;gap:4px}
+.ph-sub .note,.ph-sub .ex{font-size:.9375em;line-height:1.7;color:var(--sub);overflow-wrap:anywhere}
+.ph-sub .ex{color:var(--ink)}
+.hideDone .ph.isdone{display:none}
+
+/* メモ */
+.memo{margin:0;padding-left:1.4em}
+.memo li{margin:0 0 10px;line-height:1.8}
+.memo li::marker{color:var(--faint)}
+
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 </style>
 </head>
 <body>
@@ -72,100 +154,170 @@ const store = { get(k, d){ try{ const v = localStorage.getItem(KEY + k); return 
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const md = s => esc(s).replace(/\*\*(.+?)\*\*/g, "<b>$1</b>").replace(/\*(.+?)\*/g, "<i>$1</i>");
 const plain = s => String(s ?? "").replace(/\*/g, "");
-const say = t => `<button class="say" aria-label="読み上げ" data-say="${esc(plain(t))}">🔊</button>`;
-const en = text => `<div class="en s0">${say(text)}<span class="txt">${md(text)}</span></div>`;
-const list = (arr, tag = "ul") => `<${tag}>${arr.map(x => `<li>${md(x)}</li>`).join("")}</${tag}>`;
+// 🔊 は英文の開閉と別のボタン（押しても表示状態は変わらない）
+const say = (t, label = "") => `<button type="button" class="say" data-say="${esc(plain(t))}" aria-label="${label ? esc(label) + "を" : "英文を"}読み上げ"><span aria-hidden="true">🔊</span>${label ? `<span class="sl">読み上げ</span>` : ""}</button>`;
+const en = text => `<div class="en s0" role="button" tabindex="0" aria-expanded="false"><span class="hint">タップで英語</span><span class="txt">${md(text)}</span></div>`;
 
 const talks = D.talks || [];
-let h = `<h1>${esc(D.title)}</h1><div class="meta">${esc(D.lesson)}　｜　テーマ: ${esc(D.theme)}　｜　作成日: ${esc(D.date)}</div>`;
-h += `<div class="bar">`;
-if (talks.length > 1) h += `<div class="row"><span class="lb">内容</span>${talks.map((t, i) => `<button class="tabBtn" data-i="${i}">${esc(t.name)}</button>`).join("")}</div>`;
-h += `<div class="row"><span class="lb">英語</span><button class="modeBtn" data-s="0">全部隠す</button><button class="modeBtn" data-s="2">全部表示</button></div></div>`;
+const hasSee = !!D.see?.length, hasAlts = !!D.alts?.length, hasPh = !!D.phrases?.length, hasNotes = !!D.notes?.length;
 
-// SEE 全文
-if (D.see?.length) {
-  h += `<section class="see"><h2>SEE — 教材の全文</h2>${D.see_lead ? `<div class="lead">${md(D.see_lead)}</div>` : ""}`;
+let h = `<header class="head"><h1>${esc(D.title)}</h1><div class="meta">${esc(D.lesson)}　｜　テーマ: ${esc(D.theme)}　｜　作成日: ${esc(D.date)}</div></header>`;
+// 固定バー: 目次（既存の見出しをそのまま使う。狭い画面では短く）＋英語の全体切り替え
+h += `<div class="bar"><nav class="toc" aria-label="ページ内の目次">`;
+if (hasSee) h += `<a href="#see">SEE<span class="long">&nbsp;— 教材の全文</span></a>`;
+if (talks.length) h += `<a href="#act">ACT<span class="long">&nbsp;— 話す文</span></a>`;
+if (hasAlts) h += `<a href="#alts">言い換え</a>`;
+if (hasPh) h += `<a href="#phSec"><span class="long">今回覚えたい英語</span>表現</a>`;
+if (hasNotes) h += `<a href="#memo">メモ</a>`;
+h += `</nav><div class="seg" role="group" aria-label="ACTと表現の英語"><span class="lb">英語</span><button type="button" class="modeBtn" data-s="0" aria-pressed="false">全部隠す</button><button type="button" class="modeBtn" data-s="2" aria-pressed="false">全部表示</button></div></div>`;
+
+// SEE 全文（常に表示）
+if (hasSee) {
+  h += `<section class="sec see" id="see" aria-labelledby="h-see"><h2 id="h-see"><span class="k">SEE</span> — 教材の全文</h2>${D.see_lead ? `<p class="lead">${md(D.see_lead)}</p>` : ""}`;
   D.see.forEach(s => {
-    if (s.heading) h += `<h3>${esc(s.heading)}</h3>`;
-    h += `<div class="pair"><div class="en-v">${say(s.en)}${s.speaker ? `<span class="tag" style="margin:0 6px 0 0">${esc(s.speaker)}</span>` : ""}${md(s.en)}</div></div>`;
+    h += `<div class="see-it${s.heading ? "" : " cont"}">${s.heading ? `<h3>${esc(s.heading)}</h3>` : ""}<div class="see-row"><p class="see-en">${s.speaker ? `<span class="tag">${esc(s.speaker)}</span>` : ""}${md(s.en)}</p>${say(s.en)}</div></div>`;
   });
   h += `</section>`;
 }
 
-talks.forEach((t, ti) => {
-  h += `<div class="talk" data-i="${ti}">`;
-  h += `<section><h2>ACT — 話す文<span class="tag">${esc(t.name)}</span></h2>${t.scene ? `<div class="scene">場面: ${md(t.scene)}</div>` : ""}`;
-  h += `<div class="full">`;
-  t.sections.forEach(s => h += `<div class="pair">${s.heading ? `<div class="lbl">${esc(s.heading)}</div>` : ""}<div class="ja">${md(s.lines.map(l => l.ja).join(""))}</div>${en(s.lines.map(l => l.en).join(" "))}</div>`);
-  // 話す長さの目安（1分 ≒ 130語）
-  const words = t.sections.flatMap(s => s.lines.map(l => plain(l.en))).join(" ").split(/\s+/).filter(Boolean).length;
-  const sec = Math.round(words / 130 * 60);
-  h += `<div class="len">約${words}語 ・ 話すと約${Math.floor(sec / 60)}分${String(sec % 60).padStart(2, "0")}秒</div>`;
-  h += `</div></section>`;
-  h += `</div>`;
-});
-
-if (D.alts?.length) {
-  h += `<section><h2>言い換えストック</h2><table><tr><th>表現</th><th>別の言い方</th></tr>`;
-  D.alts.forEach(a => h += `<tr><td>${md(a.from)}</td><td>${md(a.to)}</td></tr>`);
-  h += `</table></section>`;
-}
-// 今回覚えたい英語表現
-if (D.phrases?.length) {
-  h += `<section id="phSec"><h2>今回覚えたい英語表現</h2><div class="lead">日本語を見て英語を言ってみる → タップで確認。言えたら「覚えた」。</div>`;
-  const srcCls = t => t === "ノート" ? "src-note" : t === "テーマ" ? "src-theme" : "";
-  const tags = new Set(D.phrases.map(p => p.tag));
-  if (tags.has("ノート") || tags.has("テーマ"))
-    h += `<div class="legend">${tags.has("ノート") ? `<span><i style="background:var(--src-note)"></i>ノート＝授業ノートの赤字</span>` : ""}${tags.has("テーマ") ? `<span><i style="background:var(--src-theme)"></i>テーマ＝Claudeが考えたテーマの表現</span>` : ""}</div>`;
-  h += `<div class="row" style="margin-bottom:6px"><button class="chip" id="hideDoneBtn">覚えたものを隠す</button><span class="lb" id="phCount"></span></div>`;
-  D.phrases.forEach((p, i) => {
-    h += `<div class="ph ${srcCls(p.tag)}" data-i="${i}"><div class="top"><div class="ja">${md(p.ja)}${p.tag ? `<span class="tag">${esc(p.tag)}</span>` : ""}</div><button class="done">覚えた</button></div>${en(p.en)}`;
-    if (p.note) h += `<div class="note">💡 ${md(p.note)}</div>`;
-    if (p.ex) h += `<div class="ex">例: ${md(p.ex)}</div>`;
+// ACT: 段落（区分）ごとに、日本語のすぐ横／下に対応する英文。🔊は段落の通し文（読み上げ単位は従来どおり）
+if (talks.length) {
+  h += `<section class="sec" id="act" aria-labelledby="h-act"><h2 id="h-act"><span class="k">ACT</span> — 話す文${talks.length === 1 ? `<span class="tag">${esc(talks[0].name)}</span>` : ""}</h2>`;
+  if (talks.length > 1) h += `<div class="talk-tabs" role="group" aria-label="内容">${talks.map((t, i) => `<button type="button" class="chip tabBtn" data-i="${i}" aria-pressed="false">${esc(t.name)}</button>`).join("")}</div>`;
+  talks.forEach((t, ti) => {
+    h += `<div class="talk" data-i="${ti}">${t.scene ? `<p class="scene">場面: ${md(t.scene)}</p>` : ""}`;
+    t.sections.forEach(s => {
+      h += `<div class="blk"><div class="blk-head"><h3>${esc(s.heading || "")}</h3>${say(s.lines.map(l => l.en).join(" "), s.heading || "この段落")}</div>`;
+      s.lines.forEach(l => h += `<div class="pair"><p class="ja">${md(l.ja)}</p>${en(l.en)}</div>`);
+      h += `</div>`;
+    });
+    // 話す長さの目安（1分 ≒ 130語）
+    const words = t.sections.flatMap(s => s.lines.map(l => plain(l.en))).join(" ").split(/\s+/).filter(Boolean).length;
+    const sec = Math.round(words / 130 * 60);
+    h += `<p class="len">約${words}語 ・ 話すと約${Math.floor(sec / 60)}分${String(sec % 60).padStart(2, "0")}秒</p>`;
     h += `</div>`;
   });
   h += `</section>`;
 }
-if (D.notes?.length) h += `<section><h2>メモ</h2>${list(D.notes)}</section>`;
+
+if (hasAlts) {
+  h += `<section class="sec" id="alts" aria-labelledby="h-alts"><h2 id="h-alts">言い換えストック</h2><table class="tbl"><tr><th>表現</th><th>別の言い方</th></tr>`;
+  D.alts.forEach(a => h += `<tr><td>${md(a.from)}</td><td>${md(a.to)}</td></tr>`);
+  h += `</table></section>`;
+}
+// 今回覚えたい英語表現
+if (hasPh) {
+  h += `<section class="sec" id="phSec" aria-labelledby="h-ph"><h2 id="h-ph">今回覚えたい英語表現</h2><p class="lead">日本語を見て英語を言ってみる → タップで確認。言えたら「覚えた」。</p>`;
+  const srcCls = t => t === "ノート" ? "src-note" : t === "テーマ" ? "src-theme" : "";
+  const tags = new Set(D.phrases.map(p => p.tag));
+  if (tags.has("ノート") || tags.has("テーマ"))
+    h += `<div class="legend">${tags.has("ノート") ? `<span><i style="background:var(--src-note)"></i>ノート＝授業ノートの赤字</span>` : ""}${tags.has("テーマ") ? `<span><i style="background:var(--src-theme)"></i>テーマ＝Claudeが考えたテーマの表現</span>` : ""}</div>`;
+  h += `<div class="phtools"><button type="button" class="chip" id="hideDoneBtn" aria-pressed="false">覚えたものを隠す</button><span class="count" id="phCount" aria-live="polite"></span></div>`;
+  D.phrases.forEach((p, i) => {
+    h += `<article class="ph ${srcCls(p.tag)}" data-i="${i}"><div class="ph-head">${p.tag ? `<span class="tag">${esc(p.tag)}</span>` : ""}<p class="ja">${md(p.ja)}</p><button type="button" class="done" aria-pressed="false">覚えた</button></div>`;
+    h += `<div class="en-row">${en(p.en)}${say(p.en)}</div>`;
+    if (p.note || p.ex) {
+      h += `<div class="ph-sub">`;
+      if (p.note) h += `<p class="note">💡 ${md(p.note)}</p>`;
+      if (p.ex) h += `<p class="ex">例: ${md(p.ex)}</p>`;
+      h += `</div>`;
+    }
+    h += `</article>`;
+  });
+  h += `</section>`;
+}
+if (hasNotes) h += `<section class="sec" id="memo" aria-labelledby="h-memo"><h2 id="h-memo">メモ</h2><ul class="memo">${D.notes.map(x => `<li>${md(x)}</li>`).join("")}</ul></section>`;
 
 const app = document.getElementById("app");
 app.innerHTML = h;
 
-// 読み上げ
-// 読み上げ: 事前生成mp3（edge-tts Andrew）→ 無ければブラウザ読み上げ
-let curAudio = null;
-function speak(t){
+// 読み上げ: 事前生成mp3（edge-tts Andrew）→ 無い・読み込めないときはブラウザ読み上げ
+let curAudio = null, curBtn = null;
+const mark = b => { if (curBtn) curBtn.classList.remove("playing"); curBtn = b; if (b) b.classList.add("playing"); };
+function tts(t, btn){
+  try{
+    const u = new SpeechSynthesisUtterance(t); u.lang = "en-US"; u.rate = 0.95;
+    u.onend = u.onerror = () => { if (curBtn === btn) mark(null); };
+    speechSynthesis.speak(u);
+  }catch(e){ mark(null); }
+}
+function speak(t, btn){
   if (curAudio){ curAudio.pause(); curAudio = null; }
   try{ speechSynthesis.cancel(); }catch(e){}
+  mark(btn);
   const src = (D.audio || {})[t];
-  if (src){ curAudio = new Audio(src); curAudio.play().catch(() => {}); return; }
-  try{ const u = new SpeechSynthesisUtterance(t); u.lang = "en-US"; u.rate = 0.95; speechSynthesis.speak(u); }catch(e){}
+  if (!src){ tts(t, btn); return; }
+  const a = new Audio(src); curAudio = a;
+  let fell = false;
+  const fallback = () => { if (fell || curAudio !== a) return; fell = true; curAudio = null; tts(t, btn); };
+  a.onerror = fallback;
+  a.onended = () => { if (curAudio === a){ curAudio = null; mark(null); } };
+  a.play().catch(err => { if (err && err.name === "AbortError") return; fallback(); });
 }
-const setState = (el, s) => { el.classList.remove("s0", "s2"); el.classList.add("s" + s); };
-document.addEventListener("click", e => {
-  const sb = e.target.closest(".say"); if (sb){ e.stopPropagation(); speak(sb.dataset.say); return; }
-  const b = e.target.closest(".en"); if (b) setState(b, b.classList.contains("s0") ? 2 : 0);
-});
-// 全部隠す／ヒント／全部表示
+
+// 英文の開閉
+const enEls = [...document.querySelectorAll(".en")];
 const modeBtns = [...document.querySelectorAll(".modeBtn")];
-const setAll = s => { document.querySelectorAll(".en").forEach(x => setState(x, s)); modeBtns.forEach(m => m.classList.toggle("on", +m.dataset.s === s)); };
+const setState = (el, s) => { el.classList.remove("s0", "s2"); el.classList.add("s" + s); el.setAttribute("aria-expanded", s === 2 ? "true" : "false"); };
+// 全体ボタンの選択中表示は実際の状態に合わせる（全部隠れている／全部出ている／混在＝どちらも非選択）
+const syncMode = () => {
+  const shown = enEls.filter(x => x.classList.contains("s2")).length;
+  const s = shown === 0 ? 0 : shown === enEls.length ? 2 : -1;
+  modeBtns.forEach(m => m.setAttribute("aria-pressed", +m.dataset.s === s ? "true" : "false"));
+};
+const toggleEn = b => { setState(b, b.classList.contains("s0") ? 2 : 0); syncMode(); };
+document.addEventListener("click", e => {
+  const sb = e.target.closest(".say"); if (sb){ e.stopPropagation(); speak(sb.dataset.say, sb); return; }
+  const b = e.target.closest(".en");
+  if (b){ if (b.classList.contains("s2") && String(getSelection()).trim()) return; toggleEn(b); } // 文字を選択中は閉じない
+});
+document.addEventListener("keydown", e => {
+  const b = e.target.closest?.(".en");
+  if (b && (e.key === "Enter" || e.key === " ")){ e.preventDefault(); toggleEn(b); }
+});
+// 全部隠す／全部表示（ACTと表現の英文が対象。SEEは常に表示）
+const setAll = s => { enEls.forEach(x => setState(x, s)); syncMode(); };
 modeBtns.forEach(m => m.onclick = () => setAll(+m.dataset.s));
-modeBtns[0].classList.add("on");
+syncMode();
 // パターン切り替え
 const tabBtns = [...document.querySelectorAll(".tabBtn")];
-const showTalk = i => { document.querySelectorAll(".talk").forEach(t => t.classList.toggle("on", +t.dataset.i === i)); tabBtns.forEach(b => b.classList.toggle("on", +b.dataset.i === i)); store.set("tab", i); };
+const showTalk = i => { document.querySelectorAll(".talk").forEach(t => t.classList.toggle("on", +t.dataset.i === i)); tabBtns.forEach(b => b.setAttribute("aria-pressed", +b.dataset.i === i ? "true" : "false")); store.set("tab", i); };
 tabBtns.forEach(b => b.onclick = () => showTalk(+b.dataset.i));
 showTalk(Math.min(store.get("tab", 0), Math.max(talks.length - 1, 0)));
 // 覚えた
 const phSec = document.getElementById("phSec");
 if (phSec) {
   let done = store.get("done", []);
-  const refresh = () => { phSec.querySelectorAll(".ph").forEach(p => p.classList.toggle("isdone", done.includes(+p.dataset.i))); document.getElementById("phCount").textContent = `覚えた ${done.length} / ${D.phrases.length}`; };
+  const refresh = () => {
+    phSec.querySelectorAll(".ph").forEach(p => {
+      const on = done.includes(+p.dataset.i);
+      p.classList.toggle("isdone", on);
+      const b = p.querySelector(".done");
+      b.setAttribute("aria-pressed", on ? "true" : "false");
+      b.textContent = on ? "✓ 覚えた" : "覚えた";
+    });
+    const n = done.filter(i => i >= 0 && i < D.phrases.length).length;
+    document.getElementById("phCount").innerHTML = `覚えた ${done.length} / ${D.phrases.length}<span class="bar-mini" aria-hidden="true"><span style="width:${Math.round(n / D.phrases.length * 100)}%"></span></span>`;
+  };
   phSec.querySelectorAll(".done").forEach(btn => btn.onclick = () => { const i = +btn.closest(".ph").dataset.i; done = done.includes(i) ? done.filter(x => x !== i) : [...done, i]; store.set("done", done); refresh(); });
   const hdb = document.getElementById("hideDoneBtn");
-  hdb.onclick = () => { const on = !phSec.classList.contains("hideDone"); phSec.classList.toggle("hideDone", on); hdb.classList.toggle("on", on); };
+  hdb.onclick = () => { const on = !phSec.classList.contains("hideDone"); phSec.classList.toggle("hideDone", on); hdb.setAttribute("aria-pressed", on ? "true" : "false"); };
   refresh();
 }
+// 目次: いま読んでいるセクションを示す
+const tocLinks = [...document.querySelectorAll(".toc a")];
+if ("IntersectionObserver" in window && tocLinks.length) {
+  const io = new IntersectionObserver(es => es.forEach(x => {
+    if (!x.isIntersecting) return;
+    tocLinks.forEach(a => a.setAttribute("aria-current", a.getAttribute("href") === "#" + x.target.id ? "true" : "false"));
+  }), { rootMargin: "-30% 0px -60% 0px" });
+  tocLinks.forEach(a => { const s = document.querySelector(a.getAttribute("href")); if (s) io.observe(s); });
+}
+// 目次が幅に収まらないときだけ横スワイプ（右端をぼかして続きを示す）。今のセクションのリンクは見える位置へ
+const toc = document.querySelector(".toc");
+const tocFit = () => toc.classList.toggle("ovf", toc.scrollWidth > toc.clientWidth + 1 && toc.scrollLeft + toc.clientWidth < toc.scrollWidth - 1);
+if (toc){ tocFit(); addEventListener("resize", tocFit); toc.addEventListener("scroll", tocFit, { passive: true });
+  new MutationObserver(() => { const a = toc.querySelector('[aria-current="true"]'); if (a && toc.scrollWidth > toc.clientWidth) toc.scrollTo({ left: a.offsetLeft - 16 }); }).observe(toc, { subtree: true, attributeFilter: ["aria-current"] }); }
 </script>
 </body>
 </html>
