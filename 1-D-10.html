@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Lesson 10 予習 — Challenge Lesson（Review: Lessons 6–9）</title>
+<style>
+/* 学習ノート風: 落ち着いた紙色＋青のアクセント。色はすべてここで管理 */
+:root{
+  --bg:#f4f3ef;--card:#fffefb;--ink:#1e2228;--sub:#4a515c;--faint:#6a717c;--line:#dcd9d0;--line-soft:#e9e6de;
+  --accent:#1d66a8;--accent-ink:#17599a;--accent-soft:#e7f0f8;--on-accent:#fff;
+  --hide:#eceae3;--hide-ink:#5f6672;--ok:#21754a;--ok-soft:#e5f2ea;--on-ok:#fff;
+  --src-note:#b8352a;--src-note-soft:#fbefed;--on-note:#fff;
+  --src-theme:#6a45bd;--src-theme-soft:#f3eefb;--on-theme:#fff;
+  --src-review:#1d7470;--src-review-soft:#e6f3f2;--on-review:#fff;
+  --focus:#e08a00;--bar-h:56px;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#15171b;--card:#1d2026;--ink:#e8eaed;--sub:#b4bac3;--faint:#99a0aa;--line:#353a44;--line-soft:#2a2e36;
+  --accent:#72b4ec;--accent-ink:#8cc3f2;--accent-soft:#1d2e3f;--on-accent:#0f1720;
+  --hide:#272b32;--hide-ink:#a3aab4;--ok:#57c486;--ok-soft:#1d3127;--on-ok:#0e1a13;
+  --src-note:#f0897f;--src-note-soft:#33201f;--on-note:#1a0f0e;
+  --src-theme:#b8a0f3;--src-theme-soft:#29233c;--on-theme:#150f24;
+  --src-review:#6cc9c2;--src-review-soft:#183130;--on-review:#0c1a19;
+  --focus:#ffb547;
+}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;font-size:clamp(1rem,.94rem + .3vw,1.125rem);line-height:1.75}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:6px}
+.wrap{max-width:880px;margin:0 auto;padding:0 16px 64px}
+p{margin:0}
+b{color:var(--accent-ink);font-weight:700}
+
+/* ページ見出し */
+.head{padding:20px 0 12px}
+h1{font-size:1.4em;line-height:1.4;margin:0 0 6px;font-weight:700}
+.meta{color:var(--sub);font-size:.9375em;line-height:1.6;display:flex;flex-wrap:wrap;gap:2px 14px}
+.meta span{white-space:nowrap}
+.meta span+span::before{content:"｜";margin-right:14px;color:var(--line)}
+@media (max-width:599px){.meta span{white-space:normal}.meta span+span::before{display:none}.meta{flex-direction:column}}
+
+/* 固定バー: 目次（既存の見出し）＋英語の全体切り替え。1行・高さ約56px */
+.bar{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px solid var(--line);margin:0 -16px;padding:8px 16px;display:flex;align-items:center;gap:8px;min-height:var(--bar-h)}
+.toc{display:flex;gap:2px;flex:1;min-width:0;overflow-x:auto;scrollbar-width:none}
+.toc::-webkit-scrollbar{display:none}
+.toc.ovf{-webkit-mask-image:linear-gradient(to right,#000 calc(100% - 24px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 24px),transparent)}
+.toc a{flex:none;display:inline-flex;align-items:center;min-height:40px;padding:0 10px;border-radius:8px;color:var(--sub);text-decoration:none;font-size:.875em;font-weight:600;white-space:nowrap}
+.toc a:hover{background:var(--hide);color:var(--ink)}
+.toc a[aria-current="true"]{color:var(--accent-ink);background:var(--accent-soft)}
+.toc .long{font-weight:500}
+@media (max-width:719px){.toc .long{display:none}.toc a{padding:0 6px}.seg button{padding:0 8px;font-size:.8125em}}
+.seg{flex:none;display:flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--card)}
+.seg button{border:0;background:none;min-height:40px;padding:0 12px;font-size:.875em;font-weight:600;cursor:pointer;color:var(--sub);white-space:nowrap}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--on-accent)}
+.seg .lb{display:none}
+@media (min-width:720px){.seg .lb{display:inline-flex;align-items:center;padding:0 4px 0 12px;font-size:.8125em;color:var(--faint)}}
+
+/* セクション: 見出しで大きく区切る（カードは1セクション1枚だけ） */
+.sec{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 24px 24px;margin:20px 0;scroll-margin-top:calc(var(--bar-h) + 12px)}
+@media (max-width:599px){.sec{padding:16px 16px 20px;margin:16px 0;border-radius:10px}}
+h2{font-size:1.3em;line-height:1.4;margin:0 0 12px;padding-bottom:10px;border-bottom:2px solid var(--line-soft);display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px}
+h2 .k{color:var(--accent-ink)}
+h3{font-size:1em;line-height:1.5;margin:0;font-weight:700}
+.lead{color:var(--sub);font-size:.9375em;margin:0 0 14px}
+.tag{display:inline-flex;align-items:center;font-size:.75rem;line-height:1;font-weight:600;padding:4px 8px;border-radius:5px;background:var(--hide);color:var(--hide-ink);white-space:nowrap;vertical-align:middle}
+h2 .tag{font-size:.8125rem}
+
+/* 読み上げボタン（英文の開閉とは別のボタン） */
+.say{flex:none;display:inline-flex;align-items:center;justify-content:center;gap:4px;min-width:44px;min-height:44px;padding:0 8px;border:1px solid var(--line);border-radius:10px;background:var(--card);cursor:pointer;font-size:1rem;line-height:1}
+.say:hover{border-color:var(--accent);background:var(--accent-soft)}
+.say.playing{border-color:var(--accent);background:var(--accent-soft);box-shadow:inset 0 0 0 1px var(--accent)}
+.say .sl{font-size:.8125rem;font-weight:600;color:var(--sub)}
+
+/* SEE: 常に表示 */
+.see-it{padding:14px 0;border-top:1px solid var(--line-soft)}
+.see-it:first-of-type{border-top:0;padding-top:4px}
+.see-it.cont{border-top:0;padding-top:0}
+.see-it h3{margin-bottom:6px;color:var(--sub)}
+.see-row{display:flex;gap:12px;align-items:flex-start}
+.see-en{flex:1;min-width:0;font-size:1.0625em;line-height:1.8;overflow-wrap:anywhere}
+.see-en .tag{margin-right:8px;vertical-align:2px}
+
+/* 英文の開閉（ACT・表現）: タップ／Enter／Spaceで 隠す⇄全文 */
+.en{flex:1;min-width:0;border-radius:8px;padding:10px 14px;background:var(--accent-soft);border:1px solid transparent;cursor:pointer;font-size:1.0625em;line-height:1.75;overflow-wrap:anywhere;-webkit-tap-highlight-color:transparent;user-select:text}
+.en .txt{display:none}
+.en .hint{display:none;color:var(--hide-ink);font-size:.875rem;font-weight:600;line-height:1.75}
+.en.s2 .txt{display:inline}
+.en.s0{background:var(--hide);border:1px dashed var(--line);user-select:none}
+.en.s0 .hint{display:inline}
+.en:hover{border-color:var(--accent)}
+
+/* ACT */
+.talk-tabs{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
+.chip{display:inline-flex;align-items:center;min-height:40px;padding:0 14px;border:1px solid var(--line);border-radius:999px;background:var(--card);cursor:pointer;font-size:.875em;font-weight:600;color:var(--sub)}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.talk{display:none}.talk.on{display:block}
+.scene{color:var(--sub);font-size:.9375em;margin:0 0 14px;padding:8px 12px;border-left:3px solid var(--line);background:var(--bg);border-radius:0 6px 6px 0}
+.blk{padding:18px 0 4px;border-top:1px solid var(--line)}
+.blk:first-of-type{border-top:0;padding-top:2px}
+.blk-head{display:flex;align-items:center;gap:10px;margin:0 0 12px}
+.blk-head h3{flex:1;min-width:0;display:flex;align-items:center;gap:8px;font-size:1.0625em}
+.blk-head h3::before{content:"";flex:none;width:4px;height:1.1em;border-radius:2px;background:var(--accent)}
+.pair{display:grid;gap:6px;margin:0 0 16px;padding-left:12px;border-left:3px solid var(--line-soft)}
+.pair .ja{font-size:1em;line-height:1.8}
+@media (min-width:860px){.pair{grid-template-columns:1fr 1fr;gap:16px;align-items:start}.pair .ja{padding-top:10px}}
+.len{color:var(--sub);font-size:.875em;margin-top:6px;padding-top:10px;border-top:1px solid var(--line-soft)}
+
+/* 言い換えストック */
+.tbl{width:100%;border-collapse:collapse;font-size:.9375em;table-layout:fixed}
+.tbl th,.tbl td{border-bottom:1px solid var(--line-soft);padding:8px 6px;text-align:left;vertical-align:top;overflow-wrap:anywhere}
+.tbl th{color:var(--sub);font-weight:600;font-size:.875em}
+
+/* 今回覚えたい表現: 出どころで色分け（ノート＝赤ペンの赤／テーマ＝紫）＋タグの文字 */
+.legend{display:flex;gap:6px 16px;flex-wrap:wrap;font-size:.875em;color:var(--sub);margin:0 0 12px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px}
+.phtools{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;margin:0 0 12px}
+.count{font-size:.9375em;font-weight:700;color:var(--ink)}
+.count .bar-mini{display:inline-block;vertical-align:middle;width:80px;height:6px;border-radius:3px;background:var(--hide);margin-left:8px;overflow:hidden}
+.count .bar-mini span{display:block;height:100%;background:var(--ok)}
+.phlist{display:grid;gap:12px}
+@media (min-width:860px){.phlist{grid-template-columns:1fr 1fr;align-items:start}}
+.ph{border:1px solid var(--line);border-left:5px solid var(--line);border-radius:10px;padding:12px 14px 14px;margin:0;background:var(--card);min-width:0}
+.ph.src-note{border-left-color:var(--src-note)}
+.ph.src-theme{border-left-color:var(--src-theme)}
+.ph.src-note .tag{background:var(--src-note);color:var(--on-note)}
+.ph.src-theme .tag{background:var(--src-theme);color:var(--on-theme)}
+.ph-head{display:flex;align-items:flex-start;gap:10px;margin:0 0 8px}
+.ph-head .tag{margin-top:5px}
+.ph-head .ja{flex:1;min-width:0;font-weight:700;font-size:1.125em;line-height:1.6;padding-top:1px;overflow-wrap:anywhere}
+.done{flex:none;display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 12px;border:1.5px solid var(--line);border-radius:10px;background:var(--card);color:var(--sub);font-size:.875em;font-weight:700;cursor:pointer;white-space:nowrap}
+.done:hover{border-color:var(--ok);color:var(--ok)}
+.done .box{display:inline-flex;align-items:center;justify-content:center;width:1.15em;height:1.15em;border:1.5px solid currentColor;border-radius:4px;font-size:.9em;line-height:1}
+.done[aria-pressed="true"]{background:var(--ok);border-color:var(--ok);color:var(--on-ok)}
+.ph.isdone{background:var(--ok-soft)}
+.en-row{display:flex;gap:8px;align-items:flex-start}
+.ph-sub{margin-top:10px;padding-left:2px;display:grid;gap:4px}
+.ph-sub .note,.ph-sub .ex{font-size:.96875em;line-height:1.75;color:var(--sub);overflow-wrap:anywhere}
+.ph-sub .ex{color:var(--ink)}
+.hideDone .ph.isdone{display:none}
+
+/* 前回の復習: 前回のノート左下の表現（ティール） */
+.rvlist{display:grid;gap:12px}
+@media (min-width:860px){.rvlist{grid-template-columns:1fr 1fr;align-items:start}}
+.rv{border:1px solid var(--line);border-left:5px solid var(--src-review);border-radius:10px;padding:12px 14px 14px;margin:0;background:var(--card);min-width:0}
+.rv .tag{background:var(--src-review);color:var(--on-review)}
+.rv-head{display:flex;align-items:flex-start;gap:10px;margin:0 0 8px}
+.rv-head .tag{margin-top:5px}
+.rv-head .ja{flex:1;min-width:0;font-weight:700;font-size:1.125em;line-height:1.6;padding-top:1px;overflow-wrap:anywhere}
+.rv .ph-sub{margin-top:10px}
+
+/* メモ */
+.memo{margin:0;padding-left:1.4em}
+.memo li{margin:0 0 10px;line-height:1.8}
+.memo li::marker{color:var(--faint)}
+
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+</style>
+<style>
+.lnav{max-width:880px;margin:0 auto;padding:10px 16px 0;display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:.875em;color:var(--sub)}
+.lnav label{font-weight:600}
+.lnav select{font:inherit;min-height:40px;max-width:100%;padding:0 10px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink)}
+.lnav .new{color:var(--accent-ink);font-weight:700}
+</style>
+</head>
+<body>
+<nav class="lnav" aria-label="レッスン切り替え"><label for="lsel">レッスン</label><select id="lsel" onchange="location.href=this.value"><option value="1-D-07_予習.html">1-D-11（最新） — 英語の勉強と大学の研究の両立</option><option value="1-D-10.html" selected>1-D-10 — Situation 1（市場＋製品）／Situation 2（競合＋ブランドイメージ）× 大学ver・任天堂ver</option><option value="1-D-09.html">1-D-09 — パターン1 任天堂／パターン2 北大というブランド</option><option value="1-D-08.html">1-D-08 — 自分の大学の競合（ほかの大学）について話す</option><option value="1-D-07.html">1-D-07 — 自分の大学の教育（サービス）を紹介する</option><option value="1-D-06.html">1-D-06 — パターン1 大学入試市場／パターン2 映画市場／パターン3 高等教育市場（ノート）</option></select><a href="1-D-07_予習.html">最新のレッスンへ</a></nav>
+<div class="wrap" id="app"></div>
+<script>
+const D = {"title": "Lesson 10 予習 — Challenge Lesson（Review: Lessons 6–9）", "lesson": "Bizmates Level 1-D Lesson 10", "theme": "Situation 1（市場＋製品）／Situation 2（競合＋ブランドイメージ）× 大学ver・任天堂ver", "date": "2026-10-27", "review": {"from": "1-D-06〜09", "lead": "Lesson 6〜9 の型の復習（このChallenge Lessonで組み合わせて使う）。日本語を見て英語を言ってみる → タップで確認。", "items": [{"ja": "市場を〜に分けます（L6）", "en": "**We segment the market into** ~", "ex": "We segment the market into two big groups: domestic students and international students.", "note": "segment は「区切る」。into のあとに分けた数とグループ名を続ける。"}, {"ja": "〜するタイプの客です（L6）", "en": "**This is the type of customer who** ~", "ex": "This is the type of student who wants to study in Japan.", "note": "who の後ろの動詞は type（単数）に合わせて wants。"}, {"ja": "主な製品の一つは〜です（L7）", "en": "**One of our main products is** ~", "ex": "One of our main products is the Nintendo Switch 2.", "note": "one of の後ろは複数形 products、動詞は one に合わせて is。"}, {"ja": "大きな特徴の一つは〜です（L7）", "en": "**One key feature is** ~", "ex": "One key feature is our practical classes.", "note": "製品のいちばんの売りを1つ挙げるときの決まり文句。"}, {"ja": "〜なので魅力的です（L7）", "en": "**It's attractive because** ~", "ex": "It's attractive because it gives students invaluable experience.", "note": "Situation 1 の目的「What makes it attractive」にそのまま答えられる型。"}, {"ja": "主な競合の一つは〜です（L8）", "en": "**One of our major competitors is** ~", "ex": "One of our major competitors is Tokyo University.", "note": "competitor**s**（複数形）を忘れやすい。2社目は Another major competitor is ~。"}, {"ja": "〜の点で強みがあります（L8）", "en": "**have an advantage in terms of** ~", "ex": "Sony has an advantage in terms of graphics.", "note": "主語が1社・1校なら has。in terms of のあとは名詞。"}, {"ja": "人々はAをBだと考えています（L9）", "en": "**People consider** A **to be** B", "ex": "People consider Nintendo to be fun and exciting.", "note": "consider A to be B で「AをBだとみなす」。to be は省いてもよい。"}, {"ja": "AはBに愛されています（L9）", "en": "A **is loved by** B", "ex": "Nintendo is loved by people of all ages.", "note": "受け身で「どんな人に支持されているか」を言う型。"}, {"ja": "実際、〜（L9）", "en": "**In fact,** ~", "ex": "In fact, the Mario movie was a big hit worldwide.", "note": "イメージを話したあと、それを裏づける事実を出す合図。"}]}, "talks": [{"name": "S1 大学", "scene": "教材「新入社員の研修で、会社の市場と製品を簡単に説明する」→ 自分版「**北大生として、新入生に大学の市場（高等教育）と主なサービス（教育）を説明する**」。目的: ①市場 ②主な製品・サービス1つ ③その魅力。5分以内（L6 パターン3＋L7 のノート）", "sections": [{"heading": "(Opening)", "lines": [{"ja": "今日は、私たちの大学の市場と、主なサービスの一つについて簡単に説明します。", "en": "Today, I'd like to give you a brief explanation of our university's market and one of our main services."}, {"ja": "まず市場の話から始めます。", "en": "**Let me start with** the market."}]}, {"heading": "Describing the market", "lines": [{"ja": "私たちの大学は高等教育の市場で活動しています。", "en": "Our university operates in the higher education market."}, {"ja": "大学教育を提供し、さまざまな学問分野で研究を行っています。", "en": "It provides university education and conducts research in various academic fields."}, {"ja": "高い教育を受けて専門的な知識を身につけたい人が増えているので、競争が激しく、成長している市場です。", "en": "It is **a competitive and growing market** because **more people want to pursue higher education and gain specialized knowledge**."}, {"ja": "大学は、国内外から優秀な学生を集めようと競い合ってもいます。", "en": "Universities also **compete to attract talented students from Japan and other countries**."}]}, {"heading": "Talking about market segments", "lines": [{"ja": "市場を2つの大きなグループに分けます。国内の学生と留学生です。", "en": "**We segment the market into** 2 big groups: domestic students and international students."}, {"ja": "それぞれ説明します。", "en": "Let me explain each one."}, {"ja": "まず、国内の学生のグループです。", "en": "First, the domestic students group."}, {"ja": "日本で質の高い教育を受け、将来の仕事に備えたいタイプの学生です。", "en": "**This is the type of students who** want to receive a high-quality education in Japan and prepare for their future careers."}, {"ja": "もう一つのセグメントは留学生のグループです。", "en": "The other segment is the international student group."}, {"ja": "日本で学び、日本の文化を体験したいタイプの学生です。", "en": "**This is the type of students who** want to study in Japan and experience Japanese culture."}, {"ja": "国際的な教育を通して、キャリアの可能性を広げることにも関心があります。", "en": "**They are also interested in improving their career opportunities** through an international education."}, {"ja": "全体として、競争は厳しいですが、成長している市場です。", "en": "**Overall**, it's a competitive but growing market."}]}, {"heading": "Product or service", "lines": [{"ja": "では、私たちの主なサービスの話に移ります。", "en": "Now, **let me move on to** our main service."}, {"ja": "私たちの主なサービスの一つは、質の高い教育です。", "en": "One of our main services is high-quality education."}, {"ja": "学生が知識とスキルを伸ばす手助けをします。", "en": "It helps students develop their knowledge and skills."}]}, {"heading": "Feature", "lines": [{"ja": "大きな特徴の一つは、実践的な授業です。", "en": "One key feature is our practical classes."}, {"ja": "たとえば、授業の一部として太平洋での船上実習を行っています。", "en": "For example, we offer **onboard training** in the Pacific Ocean as part of our courses."}, {"ja": "学生は船が海をどう進むかを学び、海で働く大変さを体験できます。", "en": "Students can learn **how ships navigate** the ocean and **experience the challenges of** working at sea."}]}, {"heading": "What makes it attractive", "lines": [{"ja": "学生にかけがえのない経験を与え、自信をつける手助けをしてくれるので、魅力的です。それは将来の仕事で役に立ちます。", "en": "It's attractive because it gives students invaluable experience and helps them **build confidence**, **which will be useful in their future careers**."}]}, {"heading": "(Closing)", "lines": [{"ja": "まとめると、私たちの大学は成長している市場にあり、実践的な教育を提供しています。", "en": "**To sum up**, our university is in a growing market, and it offers practical education."}, {"ja": "私たちの市場とサービスについては以上です。聞いてくれてありがとうございました。", "en": "That's all about our market and our service. Thank you for listening."}]}]}, {"name": "S2 大学", "scene": "教材「新入社員から、競合と業界の中での自社の違いを聞かれる」→ 自分版「**北大生として、大学の競合（東京大学・東北大学）と『北大』というブランドのイメージを説明する**」。目的: ①主な競合1つ以上 ②会社・製品のブランドイメージ。5分以内（L8 のノート＋L9 パターン2 北大）", "sections": [{"heading": "Naming your competitors", "lines": [{"ja": "教育業界にはたくさんの学校があります。", "en": "There are lots of schools in the education industry."}, {"ja": "しかし、私たちの主な競合の一つは東京大学です。", "en": "But **one of our major competitors is** Tokyo University."}, {"ja": "もう一つの主な競合は東北大学です。", "en": "**Another major competitor is** Tohoku University."}]}, {"heading": "Stating their advantages", "lines": [{"ja": "東京大学は物理の研究の点で強みがあります。", "en": "Tokyo University **has an advantage in terms of** physics research."}, {"ja": "東北大学は科学の研究の点で強みがあります。", "en": "Tohoku University **has an advantage in terms of** science research."}]}, {"heading": "Comparing", "lines": [{"ja": "東京大学は日本で一番入るのが難しい大学として知られています。", "en": "Tokyo University **is known for being the hardest university to get into in Japan**."}, {"ja": "物理については、宇宙に関する研究をしています。", "en": "When it comes to physics, they conduct research related to space."}, {"ja": "東北大学はうちよりも難しい理系の授業を提供しています。", "en": "Tohoku University offers **more challenging** science classes **than ours**."}]}, {"heading": "Our advantages", "lines": [{"ja": "競争は厳しいですが、私たちの大学にも強みがあります。", "en": "The competition is tough, but our university has some advantages too."}, {"ja": "たとえば、日本で一番広いキャンパスがあるので、広い土地を活かした実践的な授業を提供できます。", "en": "For example, we have the largest campus in Japan, so we can offer practical courses that **make use of the large amount of space**,"}, {"ja": "酪農の授業などです。その授業の学生は、広いキャンパスで牛を育てることができます。", "en": "such as dairy farming courses. Students in these courses can raise cows on our large campus."}]}, {"heading": "Describing the brand", "lines": [{"ja": "ここで、私たちのブランドイメージの話になります。", "en": "**That brings me to** our brand image."}, {"ja": "私たちの大学そのものが「北大」というブランドだと思います。", "en": "I think our university itself is a brand called Hokudai."}, {"ja": "北大は北海道大学の略称です。", "en": "It's short for Hokkaido University."}, {"ja": "人々は北大を、名門で自然豊かな大学だと考えています。", "en": "People **consider** our university **to be** prestigious and rich in nature."}]}, {"heading": "Talking about its audience", "lines": [{"ja": "北大は、自然やアウトドア活動を楽しむ学生に愛されています。", "en": "Hokudai **is loved by** students who enjoy nature and outdoor activities."}, {"ja": "特に、生物学や農学に興味のある学生に人気があると思います。", "en": "I think it's especially popular among students interested in biology and agriculture."}]}, {"heading": "Stating facts", "lines": [{"ja": "実際、大学の農場で生産された牛乳は、アイスクリームやチーズなどの商品に使われています。", "en": "**In fact**, milk from our university's farm is used to make products such as ice cream and cheese."}, {"ja": "これらの商品は一般の人も購入できます。", "en": "These products are sold to the public."}]}, {"heading": "(Closing)", "lines": [{"ja": "まとめると、競争は厳しいですが、広いキャンパスと自然豊かなイメージが、ほかの大学との違いです。", "en": "**To sum up**, the competition is tough, but our large campus and our nature-rich image set us apart from other universities."}, {"ja": "私たちの競合とブランドイメージについては以上です。ありがとうございました。", "en": "That's all about our competitors and our brand image. Thank you."}]}]}, {"name": "S1 任天堂", "scene": "教材と同じ「新入社員の研修で、会社の市場と製品を簡単に説明する」→ 自分版「**任天堂の社員になったつもりで、新入社員にゲーム市場と主な製品（Nintendo Switch 2）を説明する**」。目的: ①市場 ②主な製品1つ ③その魅力。5分以内（大学verと同じ構成・Claudeが作った文）", "sections": [{"heading": "(Opening)", "lines": [{"ja": "今日は、私たちの市場と、主な製品の一つについて簡単に説明します。", "en": "Today, I'd like to give you a brief explanation of our market and one of our main products."}, {"ja": "まず市場の話から始めます。", "en": "**Let me start with** the market."}]}, {"heading": "Describing the market", "lines": [{"ja": "私たちの会社はテレビゲームの市場で活動しています。", "en": "Our company operates in the video game market."}, {"ja": "ゲーム機を作り、世界中の人に向けてゲームを開発しています。", "en": "We make game consoles and develop games for people around the world."}, {"ja": "世界のゲーム市場は1,800億ドル以上の価値があります。", "en": "The global video game market **is valued at** more than 180 billion dollars."}, {"ja": "多くの人が家でも外出先でもゲームを楽しむようになっているので、競争が激しく、成長している市場です。", "en": "It is **a competitive and growing market** because more people enjoy playing games at home and on the go."}]}, {"heading": "Talking about market segments", "lines": [{"ja": "市場を2つの大きなグループに分けます。カジュアルゲーマーとコアゲーマーです。", "en": "**We segment the market into** 2 big groups: casual gamers and core gamers."}, {"ja": "それぞれ説明します。", "en": "Let me explain each one."}, {"ja": "まず、カジュアルゲーマーのグループです。", "en": "First, the casual gamers group."}, {"ja": "空いた時間に、家族や友達と気軽にゲームを楽しみたいタイプのお客さんです。", "en": "**This is the type of customer who** wants to enjoy games with family or friends in their free time."}, {"ja": "もう一つのセグメントはコアゲーマーのグループです。", "en": "The other segment is the core gamers group."}, {"ja": "ゲームに長い時間を使い、難しくて奥の深いゲームを好むタイプのお客さんです。", "en": "**This is the type of customer who** spends a lot of time on games and prefers difficult, deep games."}, {"ja": "全体として、競争は厳しいですが、成長している市場です。", "en": "**Overall**, it's a competitive but growing market."}]}, {"heading": "Product or service", "lines": [{"ja": "では、私たちの主な製品の話に移ります。", "en": "Now, **let me move on to** our main product."}, {"ja": "私たちの主な製品の一つは、Nintendo Switch 2 です。", "en": "One of our main products is the Nintendo Switch 2."}, {"ja": "2025年に発売された、私たちの最新のゲーム機です。", "en": "It's our newest game console, and it came out in 2025."}]}, {"heading": "Feature", "lines": [{"ja": "大きな特徴の一つは、テレビでも携帯機としても遊べることです。", "en": "One key feature is that you can play it on a TV or as a handheld console."}, {"ja": "また、ボイスチャット機能が付いたゲーム機でもあります。", "en": "It's also **a game console with a voice chat feature**."}, {"ja": "離れた場所にいる友達とも、話しながら一緒に遊べます。", "en": "Players can talk and play together with friends, even when they are far away."}]}, {"heading": "What makes it attractive", "lines": [{"ja": "どこでも遊べて、人と人をつないでくれるので、魅力的です。家族や友達とのつながりを強くしてくれます。", "en": "It's attractive because you can play it anywhere and it connects people, which helps families and friends spend fun time together."}]}, {"heading": "(Closing)", "lines": [{"ja": "まとめると、私たちは成長している市場にいて、Switch 2 はみんなで楽しめるゲーム機です。", "en": "**To sum up**, we are in a growing market, and the Switch 2 is a console that everyone can enjoy together."}, {"ja": "私たちの市場と製品については以上です。聞いてくれてありがとうございました。", "en": "That's all about our market and our product. Thank you for listening."}]}]}, {"name": "S2 任天堂", "scene": "教材と同じ「新入社員から、競合と業界の中での自社の違いを聞かれる」→ 自分版「**任天堂の社員になったつもりで、競合（ソニー・マイクロソフト）と任天堂のブランドイメージを説明する**」。目的: ①主な競合1つ以上 ②会社・製品のブランドイメージ。5分以内（競合はClaudeが作った文・ブランドは L9 パターン1 のノート）", "sections": [{"heading": "Naming your competitors", "lines": [{"ja": "ゲーム業界にはたくさんの会社があります。", "en": "There are lots of companies in the video game industry."}, {"ja": "しかし、私たちの主な競合の一つはソニーです。", "en": "But **one of our major competitors is** Sony."}, {"ja": "もう一つの主な競合はマイクロソフトです。", "en": "**Another major competitor is** Microsoft."}]}, {"heading": "Stating their advantages", "lines": [{"ja": "ソニーはグラフィックの点で強みがあります。", "en": "Sony **has an advantage in terms of** graphics."}, {"ja": "マイクロソフトはオンラインサービスの点で強みがあります。", "en": "Microsoft **has an advantage in terms of** online services."}]}, {"heading": "Comparing", "lines": [{"ja": "ソニーのプレイステーションは、最先端のグラフィックで知られています。", "en": "Sony's PlayStation **is known for** its **cutting-edge** graphics."}, {"ja": "マイクロソフトは、うちよりも多くのゲームを月額サービスで提供しています。", "en": "Microsoft offers **more** games on its subscription service **than** we do."}]}, {"heading": "Our advantages", "lines": [{"ja": "競争は厳しいですが、私たちにも強みがあります。", "en": "The competition is tough, but we have some advantages too."}, {"ja": "たとえば、マリオやカービィのような人気キャラクターがいます。", "en": "For example, we have popular characters like Mario and Kirby."}, {"ja": "また、ほかの会社とは違って、画質よりも新しい遊び方を大切にしています。", "en": "Also, **unlike** other companies, we focus on new ways to play rather than graphics."}]}, {"heading": "Describing the brand", "lines": [{"ja": "ここで、私たちのブランドイメージの話になります。", "en": "**That brings me to** our brand image."}, {"ja": "任天堂は日本のテレビゲームのブランドで、誰もが知っている名前です。", "en": "Nintendo is a Japanese video game brand, and it's **a household name**."}, {"ja": "人々は任天堂を、楽しくてわくわくするものだと考えています。", "en": "People **consider** Nintendo **to be** fun and exciting."}]}, {"heading": "Talking about its audience", "lines": [{"ja": "任天堂は、子どもからお年寄りまで、あらゆる年代の人に愛されています。", "en": "Nintendo **is loved by** people of all ages, from kids to seniors."}, {"ja": "特に、友達や家族とゲームをするのが好きな人に人気です。", "en": "It's especially popular among people who enjoy playing games with friends or family."}]}, {"heading": "Stating facts", "lines": [{"ja": "実際、私たちはマリオという、任天堂が生んだキャラクターが主役の映画を作りました。", "en": "**In fact**, we made a movie featuring Mario, a character created by Nintendo."}, {"ja": "その映画は世界中で大ヒットしました。", "en": "The movie **was a big hit worldwide**."}]}, {"heading": "(Closing)", "lines": [{"ja": "まとめると、競争は厳しいですが、人気キャラクターと楽しいブランドイメージが、ほかの会社との違いです。", "en": "**To sum up**, the competition is tough, but our popular characters and our fun brand image set us apart from other companies."}, {"ja": "私たちの競合とブランドイメージについては以上です。ありがとうございました。", "en": "That's all about our competitors and our brand image. Thank you."}]}]}], "phrases": [{"tag": "テーマ", "ja": "まず〜の話から始めます", "en": "**Let me start with** ~", "ex": "Let me start with the market.", "note": "話の最初の話題を示す決まり文句。複数の目的を順に話す Challenge Lesson で「今どこを話しているか」が伝わる。"}, {"tag": "テーマ", "ja": "では、〜の話に移ります", "en": "Now, **let me move on to** ~", "ex": "Now, let me move on to our main product.", "note": "話題を切り替える合図。Situation 1 では市場 → 製品の境目に入れる。"}, {"tag": "テーマ", "ja": "ここで〜の話になります（話をつなぐ）", "en": "**That brings me to** ~", "ex": "That brings me to our brand image.", "note": "前の話から自然に次の話題へつなぐ言い方。move on to より「流れでつながる」感じ。Situation 2 の競合 → ブランドの境目に。"}, {"tag": "テーマ", "ja": "全体として、〜", "en": "**Overall**, ~", "ex": "Overall, it's a competitive but growing market.", "note": "細かい説明のあとに、市場全体をひと言でまとめる。Lesson 6 の a competitive / growing market と組み合わせる。"}, {"tag": "テーマ", "ja": "まとめると、〜", "en": "**To sum up**, ~", "ex": "To sum up, our university is in a growing market, and it offers practical education.", "note": "締めの前に要点を1文で言い直す。そのあと That's all about ~. と続けると、評価基準「自分で話を切り上げる」に合う。"}], "notes": ["このレッスンは Challenge Lesson なので SEE はありません。評価は5点: ①時間内に目的を全部話す ②大きな文法ミスがない（自分で直せばOK）③自分で話を切り上げる ④ほどよいペースとはっきりした声 ⑤5秒以上黙らない。持ち時間は各Situation 5分まで。", "大学verは Lesson 6〜9 のノートのACTをそのまま並べ、つなぎの文（Opening・Overall・Now, let me move on to ~・That brings me to ~・Closing）だけを足しました。任天堂verの S1 全部と S2 の競合部分は Claude が作った文です（ブランド部分は L9 パターン1 のノート）。", "ノートの文から直したところ（大学ver）: who **wants** → who **want**（students が複数なので）／2 big groups の文末にピリオド／study in Japan**,** and → コンマなし／in **pacific ocean** → in **the Pacific Ocean**／途中で切れていた「Students can learn」を L7 ノートの赤字（how ships navigate / experience the challenges of）で完成／and **help** them → and **helps** them（主語 it）。", "ノートの文から直したところ（S2 大学）: one of our major **competitor** → **competitors**／Tokyo/Tohoku university **have** → **University has**／**pysics reserch** → **physics research**、**reserch** → **research**／When it comes to physics のあとにコンマ／**offes** → **offers**、文末にピリオド／raise cows **in** our large campus → **on** our large campus（文末をピリオドに）。", "S2 任天堂のブランド部分は L9 の they made a movie を、任天堂の社員として話すので **we** made a movie に変えています。", "任天堂verの事実: 世界のゲーム市場は約1,800〜1,900億ドル規模（2024年ごろの推計）、Nintendo Switch 2 は2025年6月発売・ボイスチャット機能（GameChat）付き。数字はおおよそなので、自信がなければ It's a very large market. に言い換えても大丈夫です。", "5分を目安に、各Situationの語数・時間は ACT の見出しの横の目安を見てください。短すぎるときは、各段落に For example, ~ を1文足すと伸ばせます。"], "audio": {"We segment the market into ~": "audio_1-D-10_予習/20cf5b2e1c49.mp3", "This is the type of customer who ~": "audio_1-D-10_予習/38e5d385100d.mp3", "One of our main products is ~": "audio_1-D-10_予習/9c45de632c7f.mp3", "One key feature is ~": "audio_1-D-10_予習/7249986736f0.mp3", "It's attractive because ~": "audio_1-D-10_予習/79bb949ec2d5.mp3", "One of our major competitors is ~": "audio_1-D-10_予習/9361c214daf4.mp3", "have an advantage in terms of ~": "audio_1-D-10_予習/a9cc28402484.mp3", "People consider A to be B": "audio_1-D-10_予習/bd3d18f0f8c4.mp3", "A is loved by B": "audio_1-D-10_予習/0ec0b32da1b1.mp3", "In fact, ~": "audio_1-D-10_予習/5550055cf0bb.mp3", "Let me start with ~": "audio_1-D-10_予習/f8e10939e850.mp3", "Now, let me move on to ~": "audio_1-D-10_予習/069a8c6a43cd.mp3", "That brings me to ~": "audio_1-D-10_予習/cfb96cb53dde.mp3", "Overall, ~": "audio_1-D-10_予習/8df11a0559fc.mp3", "To sum up, ~": "audio_1-D-10_予習/8da74be3de06.mp3", "Today, I'd like to give you a brief explanation of our university's market and one of our main services. Let me start with the market.": "audio_1-D-10_予習/5b8865e068ea.mp3", "Our university operates in the higher education market. It provides university education and conducts research in various academic fields. It is a competitive and growing market because more people want to pursue higher education and gain specialized knowledge. Universities also compete to attract talented students from Japan and other countries.": "audio_1-D-10_予習/4ed3ba6308bd.mp3", "We segment the market into 2 big groups: domestic students and international students. Let me explain each one. First, the domestic students group. This is the type of students who want to receive a high-quality education in Japan and prepare for their future careers. The other segment is the international student group. This is the type of students who want to study in Japan and experience Japanese culture. They are also interested in improving their career opportunities through an international education. Overall, it's a competitive but growing market.": "audio_1-D-10_予習/2a8533b9c7c6.mp3", "Now, let me move on to our main service. One of our main services is high-quality education. It helps students develop their knowledge and skills.": "audio_1-D-10_予習/496b8944a8c5.mp3", "One key feature is our practical classes. For example, we offer onboard training in the Pacific Ocean as part of our courses. Students can learn how ships navigate the ocean and experience the challenges of working at sea.": "audio_1-D-10_予習/059d894d5062.mp3", "It's attractive because it gives students invaluable experience and helps them build confidence, which will be useful in their future careers.": "audio_1-D-10_予習/83ce9fe9f47e.mp3", "To sum up, our university is in a growing market, and it offers practical education. That's all about our market and our service. Thank you for listening.": "audio_1-D-10_予習/8e50d8a6117e.mp3", "There are lots of schools in the education industry. But one of our major competitors is Tokyo University. Another major competitor is Tohoku University.": "audio_1-D-10_予習/4dbcd12c9a97.mp3", "Tokyo University has an advantage in terms of physics research. Tohoku University has an advantage in terms of science research.": "audio_1-D-10_予習/e83878ea7584.mp3", "Tokyo University is known for being the hardest university to get into in Japan. When it comes to physics, they conduct research related to space. Tohoku University offers more challenging science classes than ours.": "audio_1-D-10_予習/a6be4272de20.mp3", "The competition is tough, but our university has some advantages too. For example, we have the largest campus in Japan, so we can offer practical courses that make use of the large amount of space, such as dairy farming courses. Students in these courses can raise cows on our large campus.": "audio_1-D-10_予習/d8ee80083890.mp3", "That brings me to our brand image. I think our university itself is a brand called Hokudai. It's short for Hokkaido University. People consider our university to be prestigious and rich in nature.": "audio_1-D-10_予習/c24f4e037295.mp3", "Hokudai is loved by students who enjoy nature and outdoor activities. I think it's especially popular among students interested in biology and agriculture.": "audio_1-D-10_予習/e4269016f234.mp3", "In fact, milk from our university's farm is used to make products such as ice cream and cheese. These products are sold to the public.": "audio_1-D-10_予習/0df63cf433e3.mp3", "To sum up, the competition is tough, but our large campus and our nature-rich image set us apart from other universities. That's all about our competitors and our brand image. Thank you.": "audio_1-D-10_予習/5e2fa9717e1b.mp3", "Today, I'd like to give you a brief explanation of our market and one of our main products. Let me start with the market.": "audio_1-D-10_予習/c348322f0356.mp3", "Our company operates in the video game market. We make game consoles and develop games for people around the world. The global video game market is valued at more than 180 billion dollars. It is a competitive and growing market because more people enjoy playing games at home and on the go.": "audio_1-D-10_予習/9599b47740d0.mp3", "We segment the market into 2 big groups: casual gamers and core gamers. Let me explain each one. First, the casual gamers group. This is the type of customer who wants to enjoy games with family or friends in their free time. The other segment is the core gamers group. This is the type of customer who spends a lot of time on games and prefers difficult, deep games. Overall, it's a competitive but growing market.": "audio_1-D-10_予習/0ecc6126540c.mp3", "Now, let me move on to our main product. One of our main products is the Nintendo Switch 2. It's our newest game console, and it came out in 2025.": "audio_1-D-10_予習/70a1beb68063.mp3", "One key feature is that you can play it on a TV or as a handheld console. It's also a game console with a voice chat feature. Players can talk and play together with friends, even when they are far away.": "audio_1-D-10_予習/b62eb1f883ac.mp3", "It's attractive because you can play it anywhere and it connects people, which helps families and friends spend fun time together.": "audio_1-D-10_予習/3ba2c4a32b9c.mp3", "To sum up, we are in a growing market, and the Switch 2 is a console that everyone can enjoy together. That's all about our market and our product. Thank you for listening.": "audio_1-D-10_予習/230e15a984f7.mp3", "There are lots of companies in the video game industry. But one of our major competitors is Sony. Another major competitor is Microsoft.": "audio_1-D-10_予習/1ca3e4615b3b.mp3", "Sony has an advantage in terms of graphics. Microsoft has an advantage in terms of online services.": "audio_1-D-10_予習/010935254fd5.mp3", "Sony's PlayStation is known for its cutting-edge graphics. Microsoft offers more games on its subscription service than we do.": "audio_1-D-10_予習/1e118eef9226.mp3", "The competition is tough, but we have some advantages too. For example, we have popular characters like Mario and Kirby. Also, unlike other companies, we focus on new ways to play rather than graphics.": "audio_1-D-10_予習/2b7e44043c20.mp3", "That brings me to our brand image. Nintendo is a Japanese video game brand, and it's a household name. People consider Nintendo to be fun and exciting.": "audio_1-D-10_予習/216b7027b6d3.mp3", "Nintendo is loved by people of all ages, from kids to seniors. It's especially popular among people who enjoy playing games with friends or family.": "audio_1-D-10_予習/92982fd87070.mp3", "In fact, we made a movie featuring Mario, a character created by Nintendo. The movie was a big hit worldwide.": "audio_1-D-10_予習/6a293dea312c.mp3", "To sum up, the competition is tough, but our popular characters and our fun brand image set us apart from other companies. That's all about our competitors and our brand image. Thank you.": "audio_1-D-10_予習/149b2ae4fea0.mp3"}};
+const KEY = "bizprep_" + D.lesson;
+const store = { get(k, d){ try{ const v = localStorage.getItem(KEY + k); return v == null ? d : JSON.parse(v); }catch(e){ return d; } },
+                set(k, v){ try{ localStorage.setItem(KEY + k, JSON.stringify(v)); }catch(e){} } };
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const md = s => esc(s).replace(/\*\*(.+?)\*\*/g, "<b>$1</b>").replace(/\*(.+?)\*/g, "<i>$1</i>");
+const plain = s => String(s ?? "").replace(/\*/g, "");
+// 🔊 は英文の開閉と別のボタン（押しても表示状態は変わらない）
+const say = (t, label = "") => `<button type="button" class="say" data-say="${esc(plain(t))}" aria-label="${label ? esc(label) + "を" : "英文を"}読み上げ"><span aria-hidden="true">🔊</span>${label ? `<span class="sl">読み上げ</span>` : ""}</button>`;
+const en = text => `<div class="en s0" role="button" tabindex="0" aria-expanded="false"><span class="hint">タップで英語</span><span class="txt">${md(text)}</span></div>`;
+
+const talks = D.talks || [];
+const hasRv = !!D.review?.items?.length, hasSee = !!D.see?.length, hasAlts = !!D.alts?.length, hasPh = !!D.phrases?.length, hasNotes = !!D.notes?.length;
+
+let h = `<header class="head"><h1>${esc(D.title)}</h1><div class="meta"><span>${esc(D.lesson)}</span><span>テーマ: ${esc(D.theme)}</span><span>作成日: ${esc(D.date)}</span></div></header>`;
+// 固定バー: 目次（既存の見出しをそのまま使う。狭い画面では短く）＋英語の全体切り替え
+h += `<div class="bar"><nav class="toc" aria-label="ページ内の目次">`;
+if (hasRv) h += `<a href="#review"><span class="long">前回の</span>復習</a>`;
+if (hasSee) h += `<a href="#see">SEE<span class="long">&nbsp;— 教材の全文</span></a>`;
+if (talks.length) h += `<a href="#act">ACT<span class="long">&nbsp;— 話す文</span></a>`;
+if (hasAlts) h += `<a href="#alts">言い換え</a>`;
+if (hasPh) h += `<a href="#phSec"><span class="long">今回覚えたい英語</span>表現</a>`;
+if (hasNotes) h += `<a href="#memo">メモ</a>`;
+h += `</nav><div class="seg" role="group" aria-label="ACTと表現の英語"><span class="lb">英語</span><button type="button" class="modeBtn" data-s="0" aria-pressed="false">全部隠す</button><button type="button" class="modeBtn" data-s="2" aria-pressed="false">全部表示</button></div></div>`;
+
+// 前回の復習（ノート左下［復習］の表現。ウォームアップとしてSEEの前に置く）
+if (hasRv) {
+  const R = D.review;
+  h += `<section class="sec" id="review" aria-labelledby="h-rv"><h2 id="h-rv">前回の復習${R.from ? `<span class="tag">${esc(R.from)}</span>` : ""}</h2><p class="lead">${R.lead ? md(R.lead) : "前回の授業で習った表現。日本語を見て英語を言ってみる → タップで確認。"}</p><div class="rvlist">`;
+  R.items.forEach(p => {
+    h += `<article class="rv"><div class="rv-head"><span class="tag">復習</span><p class="ja">${md(p.ja)}</p></div><div class="en-row">${en(p.en)}${say(p.en)}</div>`;
+    if (p.note || p.ex) h += `<div class="ph-sub">${p.note ? `<p class="note">💡 ${md(p.note)}</p>` : ""}${p.ex ? `<p class="ex">例: ${md(p.ex)}</p>` : ""}</div>`;
+    h += `</article>`;
+  });
+  h += `</div></section>`;
+}
+
+// SEE 全文（常に表示）
+if (hasSee) {
+  h += `<section class="sec see" id="see" aria-labelledby="h-see"><h2 id="h-see"><span class="k">SEE</span> — 教材の全文</h2>${D.see_lead ? `<p class="lead">${md(D.see_lead)}</p>` : ""}`;
+  D.see.forEach(s => {
+    h += `<div class="see-it${s.heading ? "" : " cont"}">${s.heading ? `<h3>${esc(s.heading)}</h3>` : ""}<div class="see-row"><p class="see-en">${s.speaker ? `<span class="tag">${esc(s.speaker)}</span>` : ""}${md(s.en)}</p>${say(s.en)}</div></div>`;
+  });
+  h += `</section>`;
+}
+
+// ACT: 段落（区分）ごとに、日本語のすぐ横／下に対応する英文。🔊は段落の通し文（読み上げ単位は従来どおり）
+if (talks.length) {
+  h += `<section class="sec" id="act" aria-labelledby="h-act"><h2 id="h-act"><span class="k">ACT</span> — 話す文${talks.length === 1 ? `<span class="tag">${esc(talks[0].name)}</span>` : ""}</h2>`;
+  if (talks.length > 1) h += `<div class="talk-tabs" role="group" aria-label="内容">${talks.map((t, i) => `<button type="button" class="chip tabBtn" data-i="${i}" aria-pressed="false">${esc(t.name)}</button>`).join("")}</div>`;
+  talks.forEach((t, ti) => {
+    h += `<div class="talk" data-i="${ti}">${t.scene ? `<p class="scene">場面: ${md(t.scene)}</p>` : ""}`;
+    t.sections.forEach(s => {
+      h += `<div class="blk"><div class="blk-head"><h3>${esc(s.heading || "")}</h3>${say(s.lines.map(l => l.en).join(" "), s.heading || "この段落")}</div>`;
+      s.lines.forEach(l => h += `<div class="pair"><p class="ja">${md(l.ja)}</p>${en(l.en)}</div>`);
+      h += `</div>`;
+    });
+    // 話す長さの目安（1分 ≒ 130語）
+    const words = t.sections.flatMap(s => s.lines.map(l => plain(l.en))).join(" ").split(/\s+/).filter(Boolean).length;
+    const sec = Math.round(words / 130 * 60);
+    h += `<p class="len">約${words}語 ・ 話すと約${Math.floor(sec / 60)}分${String(sec % 60).padStart(2, "0")}秒</p>`;
+    h += `</div>`;
+  });
+  h += `</section>`;
+}
+
+if (hasAlts) {
+  h += `<section class="sec" id="alts" aria-labelledby="h-alts"><h2 id="h-alts">言い換えストック</h2><table class="tbl"><tr><th>表現</th><th>別の言い方</th></tr>`;
+  D.alts.forEach(a => h += `<tr><td>${md(a.from)}</td><td>${md(a.to)}</td></tr>`);
+  h += `</table></section>`;
+}
+// 今回覚えたい英語表現
+if (hasPh) {
+  h += `<section class="sec" id="phSec" aria-labelledby="h-ph"><h2 id="h-ph">今回覚えたい英語表現</h2><p class="lead">日本語を見て英語を言ってみる → タップで確認。言えたら「覚えた」。</p>`;
+  const srcCls = t => t === "ノート" ? "src-note" : t === "テーマ" ? "src-theme" : "";
+  const tags = new Set(D.phrases.map(p => p.tag));
+  if (tags.has("ノート") || tags.has("テーマ"))
+    h += `<div class="legend">${tags.has("ノート") ? `<span><i style="background:var(--src-note)"></i>ノート＝授業ノートの赤字</span>` : ""}${tags.has("テーマ") ? `<span><i style="background:var(--src-theme)"></i>テーマ＝Claudeが考えたテーマの表現</span>` : ""}</div>`;
+  h += `<div class="phtools"><button type="button" class="chip" id="hideDoneBtn" aria-pressed="false">覚えたものを隠す</button><span class="count" id="phCount" aria-live="polite"></span></div><div class="phlist">`;
+  D.phrases.forEach((p, i) => {
+    h += `<article class="ph ${srcCls(p.tag)}" data-i="${i}"><div class="ph-head">${p.tag ? `<span class="tag">${esc(p.tag)}</span>` : ""}<p class="ja">${md(p.ja)}</p><button type="button" class="done" aria-pressed="false">覚えた</button></div>`;
+    h += `<div class="en-row">${en(p.en)}${say(p.en)}</div>`;
+    if (p.note || p.ex) {
+      h += `<div class="ph-sub">`;
+      if (p.note) h += `<p class="note">💡 ${md(p.note)}</p>`;
+      if (p.ex) h += `<p class="ex">例: ${md(p.ex)}</p>`;
+      h += `</div>`;
+    }
+    h += `</article>`;
+  });
+  h += `</div></section>`;
+}
+if (hasNotes) h += `<section class="sec" id="memo" aria-labelledby="h-memo"><h2 id="h-memo">メモ</h2><ul class="memo">${D.notes.map(x => `<li>${md(x)}</li>`).join("")}</ul></section>`;
+
+const app = document.getElementById("app");
+app.innerHTML = h;
+
+// 読み上げ: 事前生成mp3（edge-tts Andrew）→ 無い・読み込めないときはブラウザ読み上げ
+let curAudio = null, curBtn = null;
+const mark = b => { if (curBtn) curBtn.classList.remove("playing"); curBtn = b; if (b) b.classList.add("playing"); };
+function tts(t, btn){
+  try{
+    const u = new SpeechSynthesisUtterance(t); u.lang = "en-US"; u.rate = 0.95;
+    u.onend = u.onerror = () => { if (curBtn === btn) mark(null); };
+    speechSynthesis.speak(u);
+  }catch(e){ mark(null); }
+}
+function stopAudio(){
+  if (curAudio){ curAudio.pause(); curAudio = null; }
+  try{ speechSynthesis.cancel(); }catch(e){}
+  mark(null);
+}
+function speak(t, btn){
+  stopAudio();
+  mark(btn);
+  const src = (D.audio || {})[t];
+  if (!src){ tts(t, btn); return; }
+  const a = new Audio(src); curAudio = a;
+  let fell = false;
+  const fallback = () => { if (fell || curAudio !== a) return; fell = true; curAudio = null; tts(t, btn); };
+  a.onerror = fallback;
+  a.onended = () => { if (curAudio === a){ curAudio = null; mark(null); } };
+  a.play().catch(err => { if (err && err.name === "AbortError") return; fallback(); });
+}
+
+// 英文の開閉
+const enEls = [...document.querySelectorAll(".en")];
+const modeBtns = [...document.querySelectorAll(".modeBtn")];
+const setState = (el, s) => { el.classList.remove("s0", "s2"); el.classList.add("s" + s); el.setAttribute("aria-expanded", s === 2 ? "true" : "false"); };
+// 全体ボタンの選択中表示は実際の状態に合わせる（全部隠れている／全部出ている／混在＝どちらも非選択）
+const syncMode = () => {
+  const shown = enEls.filter(x => x.classList.contains("s2")).length;
+  const s = shown === 0 ? 0 : shown === enEls.length ? 2 : -1;
+  modeBtns.forEach(m => m.setAttribute("aria-pressed", +m.dataset.s === s ? "true" : "false"));
+};
+const toggleEn = b => { setState(b, b.classList.contains("s0") ? 2 : 0); syncMode(); };
+document.addEventListener("click", e => {
+  const sb = e.target.closest(".say"); if (sb){ e.stopPropagation(); if (sb === curBtn) stopAudio(); else speak(sb.dataset.say, sb); return; }
+  const b = e.target.closest(".en");
+  if (b){ if (b.classList.contains("s2") && String(getSelection()).trim()) return; toggleEn(b); } // 文字を選択中は閉じない
+});
+document.addEventListener("keydown", e => {
+  const b = e.target.closest?.(".en");
+  if (b && (e.key === "Enter" || e.key === " ")){ e.preventDefault(); toggleEn(b); }
+});
+// 全部隠す／全部表示（復習・ACT・表現の英文が対象。SEEは常に表示）
+const setAll = s => { enEls.forEach(x => setState(x, s)); syncMode(); };
+modeBtns.forEach(m => m.onclick = () => setAll(+m.dataset.s));
+syncMode();
+// パターン切り替え
+const tabBtns = [...document.querySelectorAll(".tabBtn")];
+const showTalk = i => { document.querySelectorAll(".talk").forEach(t => t.classList.toggle("on", +t.dataset.i === i)); tabBtns.forEach(b => b.setAttribute("aria-pressed", +b.dataset.i === i ? "true" : "false")); store.set("tab", i); };
+tabBtns.forEach(b => b.onclick = () => showTalk(+b.dataset.i));
+showTalk(Math.min(store.get("tab", 0), Math.max(talks.length - 1, 0)));
+// 覚えた
+const phSec = document.getElementById("phSec");
+if (phSec) {
+  let done = store.get("done", []);
+  const refresh = () => {
+    phSec.querySelectorAll(".ph").forEach(p => {
+      const on = done.includes(+p.dataset.i);
+      p.classList.toggle("isdone", on);
+      const b = p.querySelector(".done");
+      b.setAttribute("aria-pressed", on ? "true" : "false");
+      b.innerHTML = `<span class="box" aria-hidden="true">${on ? "✓" : ""}</span>覚えた`;
+    });
+    const n = done.filter(i => i >= 0 && i < D.phrases.length).length;
+    document.getElementById("phCount").innerHTML = `覚えた ${n} / ${D.phrases.length}<span class="bar-mini" aria-hidden="true"><span style="width:${Math.round(n / D.phrases.length * 100)}%"></span></span>`;
+  };
+  phSec.querySelectorAll(".done").forEach(btn => btn.onclick = () => { const i = +btn.closest(".ph").dataset.i; done = done.includes(i) ? done.filter(x => x !== i) : [...done, i]; store.set("done", done); refresh(); });
+  const hdb = document.getElementById("hideDoneBtn");
+  hdb.onclick = () => { const on = !phSec.classList.contains("hideDone"); phSec.classList.toggle("hideDone", on); hdb.setAttribute("aria-pressed", on ? "true" : "false"); };
+  refresh();
+}
+// 目次: いま読んでいるセクションを示す
+const tocLinks = [...document.querySelectorAll(".toc a")];
+if ("IntersectionObserver" in window && tocLinks.length) {
+  const io = new IntersectionObserver(es => es.forEach(x => {
+    if (!x.isIntersecting) return;
+    tocLinks.forEach(a => a.setAttribute("aria-current", a.getAttribute("href") === "#" + x.target.id ? "true" : "false"));
+  }), { rootMargin: "-30% 0px -60% 0px" });
+  tocLinks.forEach(a => { const s = document.querySelector(a.getAttribute("href")); if (s) io.observe(s); });
+}
+// 目次が幅に収まらないときだけ横スワイプ（右端をぼかして続きを示す）。今のセクションのリンクは見える位置へ
+const toc = document.querySelector(".toc");
+const tocFit = () => toc.classList.toggle("ovf", toc.scrollWidth > toc.clientWidth + 1 && toc.scrollLeft + toc.clientWidth < toc.scrollWidth - 1);
+if (toc){ tocFit(); addEventListener("resize", tocFit); toc.addEventListener("scroll", tocFit, { passive: true });
+  new MutationObserver(() => { const a = toc.querySelector('[aria-current="true"]'); if (a && toc.scrollWidth > toc.clientWidth) toc.scrollTo({ left: a.offsetLeft - 16 }); }).observe(toc, { subtree: true, attributeFilter: ["aria-current"] }); }
+</script>
+</body>
+</html>
