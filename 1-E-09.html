@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Lesson 9 予習 — Talking About Uncertainties</title>
+<style>
+/* 学習ノート風: 落ち着いた紙色＋青のアクセント。色はすべてここで管理 */
+:root{
+  --bg:#f4f3ef;--card:#fffefb;--ink:#1e2228;--sub:#4a515c;--faint:#6a717c;--line:#dcd9d0;--line-soft:#e9e6de;
+  --accent:#1d66a8;--accent-ink:#17599a;--accent-soft:#e7f0f8;--on-accent:#fff;
+  --hide:#eceae3;--hide-ink:#5f6672;--ok:#21754a;--ok-soft:#e5f2ea;--on-ok:#fff;
+  --src-note:#b8352a;--src-note-soft:#fbefed;--on-note:#fff;
+  --src-theme:#6a45bd;--src-theme-soft:#f3eefb;--on-theme:#fff;
+  --src-review:#1d7470;--src-review-soft:#e6f3f2;--on-review:#fff;
+  --focus:#e08a00;--bar-h:56px;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#15171b;--card:#1d2026;--ink:#e8eaed;--sub:#b4bac3;--faint:#99a0aa;--line:#353a44;--line-soft:#2a2e36;
+  --accent:#72b4ec;--accent-ink:#8cc3f2;--accent-soft:#1d2e3f;--on-accent:#0f1720;
+  --hide:#272b32;--hide-ink:#a3aab4;--ok:#57c486;--ok-soft:#1d3127;--on-ok:#0e1a13;
+  --src-note:#f0897f;--src-note-soft:#33201f;--on-note:#1a0f0e;
+  --src-theme:#b8a0f3;--src-theme-soft:#29233c;--on-theme:#150f24;
+  --src-review:#6cc9c2;--src-review-soft:#183130;--on-review:#0c1a19;
+  --focus:#ffb547;
+}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;font-size:clamp(1rem,.94rem + .3vw,1.125rem);line-height:1.75}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:6px}
+.wrap{max-width:880px;margin:0 auto;padding:0 16px 64px}
+p{margin:0}
+b{color:var(--accent-ink);font-weight:700}
+
+/* ページ見出し */
+.head{padding:20px 0 12px}
+h1{font-size:1.4em;line-height:1.4;margin:0 0 6px;font-weight:700}
+.meta{color:var(--sub);font-size:.9375em;line-height:1.6;display:flex;flex-wrap:wrap;gap:2px 14px}
+.meta span{white-space:nowrap}
+.meta span+span::before{content:"｜";margin-right:14px;color:var(--line)}
+@media (max-width:599px){.meta span{white-space:normal}.meta span+span::before{display:none}.meta{flex-direction:column}}
+
+/* 固定バー: 目次（既存の見出し）＋英語の全体切り替え。1行・高さ約56px */
+.bar{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px solid var(--line);margin:0 -16px;padding:8px 16px;display:flex;align-items:center;gap:8px;min-height:var(--bar-h)}
+.toc{display:flex;gap:2px;flex:1;min-width:0;overflow-x:auto;scrollbar-width:none}
+.toc::-webkit-scrollbar{display:none}
+.toc.ovf{-webkit-mask-image:linear-gradient(to right,#000 calc(100% - 24px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 24px),transparent)}
+.toc a{flex:none;display:inline-flex;align-items:center;min-height:40px;padding:0 10px;border-radius:8px;color:var(--sub);text-decoration:none;font-size:.875em;font-weight:600;white-space:nowrap}
+.toc a:hover{background:var(--hide);color:var(--ink)}
+.toc a[aria-current="true"]{color:var(--accent-ink);background:var(--accent-soft)}
+.toc .long{font-weight:500}
+@media (max-width:719px){.toc .long{display:none}.toc a{padding:0 6px}.seg button{padding:0 8px;font-size:.8125em}}
+.seg{flex:none;display:flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--card)}
+.seg button{border:0;background:none;min-height:40px;padding:0 12px;font-size:.875em;font-weight:600;cursor:pointer;color:var(--sub);white-space:nowrap}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--on-accent)}
+.seg .lb{display:none}
+@media (min-width:720px){.seg .lb{display:inline-flex;align-items:center;padding:0 4px 0 12px;font-size:.8125em;color:var(--faint)}}
+
+/* セクション: 見出しで大きく区切る（カードは1セクション1枚だけ） */
+.sec{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 24px 24px;margin:20px 0;scroll-margin-top:calc(var(--bar-h) + 12px)}
+@media (max-width:599px){.sec{padding:16px 16px 20px;margin:16px 0;border-radius:10px}}
+h2{font-size:1.3em;line-height:1.4;margin:0 0 12px;padding-bottom:10px;border-bottom:2px solid var(--line-soft);display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px}
+h2 .k{color:var(--accent-ink)}
+h3{font-size:1em;line-height:1.5;margin:0;font-weight:700}
+.lead{color:var(--sub);font-size:.9375em;margin:0 0 14px}
+.tag{display:inline-flex;align-items:center;font-size:.75rem;line-height:1;font-weight:600;padding:4px 8px;border-radius:5px;background:var(--hide);color:var(--hide-ink);white-space:nowrap;vertical-align:middle}
+h2 .tag{font-size:.8125rem}
+
+/* 読み上げボタン（英文の開閉とは別のボタン） */
+.say{flex:none;display:inline-flex;align-items:center;justify-content:center;gap:4px;min-width:44px;min-height:44px;padding:0 8px;border:1px solid var(--line);border-radius:10px;background:var(--card);cursor:pointer;font-size:1rem;line-height:1}
+.say:hover{border-color:var(--accent);background:var(--accent-soft)}
+.say.playing{border-color:var(--accent);background:var(--accent-soft);box-shadow:inset 0 0 0 1px var(--accent)}
+.say .sl{font-size:.8125rem;font-weight:600;color:var(--sub)}
+
+/* SEE: 常に表示 */
+.see-it{padding:14px 0;border-top:1px solid var(--line-soft)}
+.see-it:first-of-type{border-top:0;padding-top:4px}
+.see-it.cont{border-top:0;padding-top:0}
+.see-it h3{margin-bottom:6px;color:var(--sub)}
+.see-row{display:flex;gap:12px;align-items:flex-start}
+.see-en{flex:1;min-width:0;font-size:1.0625em;line-height:1.8;overflow-wrap:anywhere}
+.see-en .tag{margin-right:8px;vertical-align:2px}
+
+/* 英文の開閉（ACT・表現）: タップ／Enter／Spaceで 隠す⇄全文 */
+.en{flex:1;min-width:0;border-radius:8px;padding:10px 14px;background:var(--accent-soft);border:1px solid transparent;cursor:pointer;font-size:1.0625em;line-height:1.75;overflow-wrap:anywhere;-webkit-tap-highlight-color:transparent;user-select:text}
+.en .txt{display:none}
+.en .hint{display:none;color:var(--hide-ink);font-size:.875rem;font-weight:600;line-height:1.75}
+.en.s2 .txt{display:inline}
+.en.s0{background:var(--hide);border:1px dashed var(--line);user-select:none}
+.en.s0 .hint{display:inline}
+.en:hover{border-color:var(--accent)}
+
+/* ACT */
+.talk-tabs{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
+.chip{display:inline-flex;align-items:center;min-height:40px;padding:0 14px;border:1px solid var(--line);border-radius:999px;background:var(--card);cursor:pointer;font-size:.875em;font-weight:600;color:var(--sub)}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.talk{display:none}.talk.on{display:block}
+.scene{color:var(--sub);font-size:.9375em;margin:0 0 14px;padding:8px 12px;border-left:3px solid var(--line);background:var(--bg);border-radius:0 6px 6px 0}
+.blk{padding:18px 0 4px;border-top:1px solid var(--line)}
+.blk:first-of-type{border-top:0;padding-top:2px}
+.blk-head{display:flex;align-items:center;gap:10px;margin:0 0 12px}
+.blk-head h3{flex:1;min-width:0;display:flex;align-items:center;gap:8px;font-size:1.0625em}
+.blk-head h3::before{content:"";flex:none;width:4px;height:1.1em;border-radius:2px;background:var(--accent)}
+.pair{display:grid;gap:6px;margin:0 0 16px;padding-left:12px;border-left:3px solid var(--line-soft)}
+.pair .ja{font-size:1em;line-height:1.8}
+@media (min-width:860px){.pair{grid-template-columns:1fr 1fr;gap:16px;align-items:start}.pair .ja{padding-top:10px}}
+.len{color:var(--sub);font-size:.875em;margin-top:6px;padding-top:10px;border-top:1px solid var(--line-soft)}
+
+/* TRY（任意・D.try があるときだけ）: 教材の VOCABULARY＋役の情報＋ノートに書いた自分の答え */
+.vocab{display:grid;gap:8px;margin:0 0 16px}
+@media (min-width:600px){.vocab{grid-template-columns:1fr 1fr}}
+.voc{display:flex;align-items:center;gap:10px;padding:8px 12px;border:1px solid var(--line-soft);border-radius:8px;min-width:0}
+.voc>div{flex:1;min-width:0}
+.voc .v-en{font-weight:700;line-height:1.5;overflow-wrap:anywhere}
+.voc .v-ja{color:var(--sub);font-size:.9375em;line-height:1.5}
+.info{display:grid;grid-template-columns:auto 1fr;gap:2px 14px;margin:0 0 14px;padding:8px 12px;background:var(--bg);border-left:3px solid var(--line);border-radius:0 6px 6px 0;font-size:.9375em;line-height:1.6}
+.info dt{color:var(--sub);font-weight:600}
+.info dd{margin:0;overflow-wrap:anywhere}
+@media (max-width:599px){.info{grid-template-columns:1fr}.info dd{margin-bottom:6px}}
+.try-ex{margin:0 0 16px}
+
+/* 言い換えストック */
+.tbl{width:100%;border-collapse:collapse;font-size:.9375em;table-layout:fixed}
+.tbl th,.tbl td{border-bottom:1px solid var(--line-soft);padding:8px 6px;text-align:left;vertical-align:top;overflow-wrap:anywhere}
+.tbl th{color:var(--sub);font-weight:600;font-size:.875em}
+
+/* 今回覚えたい表現: 出どころで色分け（ノート＝赤ペンの赤／テーマ＝紫）＋タグの文字 */
+.legend{display:flex;gap:6px 16px;flex-wrap:wrap;font-size:.875em;color:var(--sub);margin:0 0 12px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px}
+.phtools{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;margin:0 0 12px}
+.count{font-size:.9375em;font-weight:700;color:var(--ink)}
+.count .bar-mini{display:inline-block;vertical-align:middle;width:80px;height:6px;border-radius:3px;background:var(--hide);margin-left:8px;overflow:hidden}
+.count .bar-mini span{display:block;height:100%;background:var(--ok)}
+.phlist{display:grid;gap:12px}
+@media (min-width:860px){.phlist{grid-template-columns:1fr 1fr;align-items:start}}
+.ph{border:1px solid var(--line);border-left:5px solid var(--line);border-radius:10px;padding:12px 14px 14px;margin:0;background:var(--card);min-width:0}
+.ph.src-note{border-left-color:var(--src-note)}
+.ph.src-theme{border-left-color:var(--src-theme)}
+.ph.src-note .tag{background:var(--src-note);color:var(--on-note)}
+.ph.src-theme .tag{background:var(--src-theme);color:var(--on-theme)}
+.ph-head{display:flex;align-items:flex-start;gap:10px;margin:0 0 8px}
+.ph-head .tag{margin-top:5px}
+.ph-head .ja{flex:1;min-width:0;font-weight:700;font-size:1.125em;line-height:1.6;padding-top:1px;overflow-wrap:anywhere}
+.done{flex:none;display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 12px;border:1.5px solid var(--line);border-radius:10px;background:var(--card);color:var(--sub);font-size:.875em;font-weight:700;cursor:pointer;white-space:nowrap}
+.done:hover{border-color:var(--ok);color:var(--ok)}
+.done .box{display:inline-flex;align-items:center;justify-content:center;width:1.15em;height:1.15em;border:1.5px solid currentColor;border-radius:4px;font-size:.9em;line-height:1}
+.done[aria-pressed="true"]{background:var(--ok);border-color:var(--ok);color:var(--on-ok)}
+.ph.isdone{background:var(--ok-soft)}
+.en-row{display:flex;gap:8px;align-items:flex-start}
+.ph-sub{margin-top:10px;padding-left:2px;display:grid;gap:4px}
+.ph-sub .note,.ph-sub .ex{font-size:.96875em;line-height:1.75;color:var(--sub);overflow-wrap:anywhere}
+.ph-sub .ex{color:var(--ink)}
+.hideDone .ph.isdone{display:none}
+
+/* 前回の復習: 前回のノート左下の表現（ティール） */
+.rvlist{display:grid;gap:12px}
+@media (min-width:860px){.rvlist{grid-template-columns:1fr 1fr;align-items:start}}
+.rv{border:1px solid var(--line);border-left:5px solid var(--src-review);border-radius:10px;padding:12px 14px 14px;margin:0;background:var(--card);min-width:0}
+.rv .tag{background:var(--src-review);color:var(--on-review)}
+.rv-head{display:flex;align-items:flex-start;gap:10px;margin:0 0 8px}
+.rv-head .tag{margin-top:5px}
+.rv-head .ja{flex:1;min-width:0;font-weight:700;font-size:1.125em;line-height:1.6;padding-top:1px;overflow-wrap:anywhere}
+.rv .ph-sub{margin-top:10px}
+
+/* メモ */
+.memo{margin:0;padding-left:1.4em}
+.memo li{margin:0 0 10px;line-height:1.8}
+.memo li::marker{color:var(--faint)}
+
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+</style>
+<style>
+.lnav{max-width:880px;margin:0 auto;padding:10px 16px 0;display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:.875em;color:var(--sub)}
+.lnav label{font-weight:600}
+.lnav select{font:inherit;min-height:40px;max-width:100%;padding:0 10px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink)}
+.lnav .new{color:var(--accent-ink);font-weight:700}
+</style>
+</head>
+<body>
+<nav class="lnav" aria-label="レッスン切り替え"><label for="lsel">レッスン</label><select id="lsel" onchange="location.href=this.value"><option value="1-D-07_予習.html">1-E-10（最新） — S1 うわさ＋感想 ／ S2 ニュース＋わからないこと＋期待・心配</option><option value="1-E-09.html" selected>1-E-09 — ニュースを伝え、まだわからない点と期待を話す</option><option value="1-E-08.html">1-E-08 — 聞いたうわさについて、賛成・反対とその理由を話す</option><option value="1-E-07.html">1-E-07 — 最近読んだニュースを仲間に伝え、感想を話す</option><option value="1-E-06.html">1-E-06 — 研究室に入りたい学生が多いといううわさを仲間に伝え、気持ちを話す</option><option value="1-E-05.html">1-E-05 — S1 データ＋改善点＋提案 ／ S2 原因＋提案＋効果 × 会社ver・大学ver</option><option value="1-E-04.html">1-E-04 — 研究室の仲間に、データ分析の勉強会を提案して、その効果を説明する</option><option value="1-E-03.html">1-E-03 — 研究室の仲間に、集めた川のデータを共有しようと提案する</option><option value="1-E-02.html">1-E-02 — 卒業研究のデータ（川の魚2種と流速）を数字で説明する</option><option value="1-E-01.html">1-E-01 — 大学の授業の移動（離れた建物・冬の雪）を改善点として話す</option><option value="1-D-20.html">1-D-20 — Situation 1（決まり＋助言）／Situation 2（ほめる＋励ます）× 研究ver</option><option value="1-D-19.html">1-D-19 — テストでいい点が取れずに落ち込んでいる友だちを励ます</option><option value="1-D-18.html">1-D-18 — 研究室の仲間の発表を、先生がほめていたと伝えてほめる</option><option value="1-D-17.html">1-D-17 — 研究テーマが決まらない後輩に、先生に相談するよう助言する</option><option value="1-D-16.html">1-D-16 — 研究室の暗黙のルール（発表前の決まり）を後輩に説明する</option><option value="1-D-15.html">1-D-15 — Situation 1（問題＋相談）／Situation 2（ストレス＋やる気）× 研究ver</option><option value="1-D-14.html">1-D-14 — 卒業研究で何がやる気になるかを話す</option><option value="1-D-13.html">1-D-13 — 留学準備（英語の試験）と卒論のストレスについて話す</option><option value="1-D-12.html">1-D-12 — 研究のデータ分析について先輩にアドバイスを求める</option><option value="1-D-11.html">1-D-11 — 英語の勉強と大学の研究の両立</option><option value="1-D-10.html">1-D-10 — Situation 1（市場＋製品）／Situation 2（競合＋ブランドイメージ）× 大学ver・任天堂ver</option><option value="1-D-09.html">1-D-09 — パターン1 任天堂／パターン2 北大というブランド</option><option value="1-D-08.html">1-D-08 — 自分の大学の競合（ほかの大学）について話す</option><option value="1-D-07.html">1-D-07 — 自分の大学の教育（サービス）を紹介する</option><option value="1-D-06.html">1-D-06 — パターン1 大学入試市場／パターン2 映画市場／パターン3 高等教育市場（ノート）</option></select><a href="1-D-07_予習.html">最新のレッスンへ</a></nav>
+<div class="wrap" id="app"></div>
+<script>
+const D = {"title": "Lesson 9 予習 — Talking About Uncertainties", "lesson": "Bizmates Level 1-E Lesson 9", "theme": "ニュースを伝え、まだわからない点と期待を話す", "date": "2026-11-26", "see_lead": "When you talk about uncertainties, try speaking in the following way.", "see": [{"heading": "Sharing information", "speaker": "Mari", "en": "**I’ve heard** that one of the marketing managers is resigning. Her last day is the end of this month."}, {"heading": "Talking about uncertainties", "speaker": "Mari", "en": "**I wonder if** the marketing team will be OK without her. She was doing a great job. **I wonder why** she’s leaving."}, {"heading": "Talking about hopes", "speaker": "Mari", "en": "**I hope** they find a new manager soon."}], "try": {"lead": "Listen to your trainer share the news below. Use at least 2 of the phrases in the box to talk about uncertainties for each piece of news. Then, talk about your hopes. An example is given to guide you. トレーナーが話すニュースについて、ボックスの表現を2つ以上使ってまだわからない点を言い、最後に期待を言う（ノートの TRY に書いた答え）。", "vocab_lead": "まだわからないことを言うときの形。後ろは主語＋動詞の順（疑問文の語順にしない）。", "vocab": [{"en": "I wonder if…", "ja": "〜かな（〜かどうか気になる）"}, {"en": "I wonder why…", "ja": "なぜ〜なんだろう"}, {"en": "I wonder what…", "ja": "何を（何が）〜なんだろう"}, {"en": "I wonder where…", "ja": "どこで（どこに）〜なんだろう"}, {"en": "I wonder when…", "ja": "いつ〜なんだろう"}, {"en": "I wonder who…", "ja": "誰が（誰を）〜なんだろう"}, {"en": "I wonder how…", "ja": "どうやって（どのくらい）〜なんだろう"}], "example": {"name": "You", "info": [["Trainer", "You will be transferred to an overseas branch office."]], "en": "I've heard I will be transferred to an overseas branch office. I wonder when it’s going to be. And I wonder where I’m getting transferred. I hope it will be an Asian country."}, "items": [{"no": "1", "name": "New office building", "info": [["Trainer", "Our company is moving to a new office building."]], "lines": [{"ja": "会社が新しいオフィスビルに移ると聞きました。", "en": "**I've heard** our company is moving to a new office building."}, {"ja": "通勤時間が前より長くなるのかな。", "en": "**I wonder if my commute will be longer than before**."}, {"ja": "どうして新しいオフィスに移らなければいけないんだろう。", "en": "**I wonder why** we have to move a new office."}, {"ja": "新しいオフィスが今のオフィスの近くだといいな。", "en": "**I hope** the new office is near this office."}]}, {"no": "2", "name": "Influencer's vlog", "info": [["Trainer", "An influencer talked about our company in his vlog."]], "lines": [{"ja": "あるインフルエンサーが、自分の vlog でうちの会社について話したと聞きました。", "en": "**I've heard** an influencer talked about our company in his vlog."}, {"ja": "どんな vlog を作ったんだろう。", "en": "**I wonder what** kind of vlog he made."}, {"ja": "それに、vlog でうちの会社のことをどんなふうに話したんだろう。", "en": "And **I wonder how** he talked about my company in his vlog."}, {"ja": "うちの会社の文句を言っていなければいいな。", "en": "**I hope** he didn't complain about my company."}]}, {"no": "3", "name": "New boss", "info": [["Trainer", "You will have a new boss. She’s a foreigner."]], "lines": [{"ja": "新しい上司が来ると聞きました。しかも外国の方だそうです。", "en": "**I've heard** I will have a new boss, And She is a foreigner."}, {"ja": "どのくらい日本語が話せるんだろう。", "en": "**I wonder how** well she can speak Japanese."}, {"ja": "それに、どうしてこの会社に来たんだろう。", "en": "And **I wonder why** she came this company."}, {"ja": "優しい人だといいな。", "en": "**I hope** she is kind person."}]}]}, "talks": [{"name": "研究室に入りたい学生が多いというニュース", "scene": "教材「同僚とニュースを共有し、それについてまだわからない点を話す」→ 自分版「**来年うちの研究室に入りたい学生が多いというニュースを研究室の仲間に話し、わからない点と期待を言う**」", "sections": [{"heading": "Sharing information", "lines": [{"ja": "来年、たくさんの学生がうちの研究室に入りたがっていると聞きました。", "en": "**I've heard that** a lot of students want to join our laboratory next year."}]}, {"heading": "Talking about uncertainties", "lines": [{"ja": "どうしてうちの研究室が、彼らに人気になったんだろう。", "en": "**I wonder why** our laboratory became popular with them."}, {"ja": "この研究室はやることがたくさんあります。だから、彼らが本当にそれをわかっているのかなと思います。", "en": "We have a lot to do in this lab. So **I wonder if** they really know about that."}]}, {"heading": "Talking about hopes", "lines": [{"ja": "彼らがこの研究室の仕事量についていけるといいな。", "en": "**I hope** they can keep up with the workload in this lab."}]}]}], "phrases": [{"tag": "ノート", "ja": "通勤時間が前より長くなる", "en": "**my commute will be longer than before**", "ex": "I wonder if my commute will be longer than before.", "note": "commute は名詞で「通勤（の道のり・時間）」。than before で「前より」。I wonder if ~ と組むと、まだわからないことを言える。"}, {"tag": "ノート", "ja": "〜と聞きました", "en": "**I've heard that** ~", "ex": "I've heard that a lot of students want to join our laboratory next year.", "note": "ニュースやうわさを切り出す SEE の型。that は省いてもよい（TRY の I've heard our company is ~ のように）。"}, {"tag": "ノート", "ja": "なぜ〜なんだろう", "en": "**I wonder why** ~", "ex": "I wonder why our laboratory became popular with students.", "note": "why の後ろは主語＋動詞の順（why did our lab become ～ にしない）。why を if・what・how に替えると TRY の VOCABULARY の形になる。"}, {"tag": "ノート", "ja": "〜だといいな", "en": "**I hope** ~", "ex": "I hope they can keep up with the workload in this lab.", "note": "先のことでも I hope の後ろは現在形や can でよい（I hope she is a kind person.）。"}, {"tag": "テーマ", "ja": "まだはっきり決まっていません", "en": "It's still **up in the air**.", "ex": "It's still up in the air.", "note": "予定や計画が未定のときのひと言。Talking about uncertainties の締めに使える。"}, {"tag": "テーマ", "ja": "（何人入ってくるのか）まだはっきりしていません", "en": "**It's not clear yet** how many students will join.", "ex": "It's not clear yet how many students will join.", "note": "I wonder ~ の言い換え。how・when・whether の後ろは主語＋動詞の順。"}, {"tag": "テーマ", "ja": "詳しいことはまだわかりません", "en": "**I don't know the details yet.**", "ex": "I don't know the details yet.", "note": "ニュースを伝えた直後に言うと、そのあとの I wonder ~ に自然につながる。"}, {"tag": "テーマ", "ja": "今の時点ではなんとも言えません", "en": "**It's hard to say at this point.**", "ex": "It's hard to say at this point.", "note": "相手に「どうなると思う？」と聞かれたときの答え方。"}, {"tag": "テーマ", "ja": "うまくいくことを願いましょう", "en": "**Let's hope for the best.**", "ex": "Let's hope for the best.", "note": "Talking about hopes の最後に足すと、話を前向きに締められる。I hope ~ の決まり文句版。"}], "notes": ["教材は HTML（Bizmate資料/Level-1-Rank-E/lesson-09/index.html）。SEE の青字の型は I've heard ／ I wonder if ／ I wonder why ／ I hope の4つ。ACT・TRY ともに4つとも使えています（TRY では I wonder what／how も使えています）。", "教材 TRY の後半「To prepare for a role-play」の3つの質問（最近聞いたニュース／まだわからないこと／どうなってほしいか）が、ノート右側の 1 sharing information／2 uncertainties／3 hopes にあたります。ACT の見出しは SEE の見出しに合わせました。", "ACT の文法: 大きなミスはありません。became popular は「（最近）人気になって今も人気」なので has become popular のほうが自然です。them は a lot of students を指すので通じます。ノートの want to join は to を書き直してあったので want to join と写しました。", "ACT は約50語（話すと25秒前後）と短めです。Talking about uncertainties にテーマの表現 It's not clear yet how many students will join. を足し、最後に Let's hope for the best. と締めると、評価基準『自分で話を切り上げる』にも合います。", "TRY 1: move a new office → move to a new office（move の後ろに行き先を言うときは to が要る）。this office は「今のオフィス」の意味なら our current office のほうがはっきりします。", "TRY 2: how he talked about my company は、直前の our company とそろえて our company にすると自然です。I hope he didn't complain ~ は過去のことへの願いなので didn't で正しいです。", "TRY 3: I will have a new boss, And She is a foreigner. はコンマで2文をつないでいるので、boss. She is ~ と文を切るか boss, and she is ~ と小文字にします。came this company → came to this company（または chose this company）。she is kind person → she is a kind person（a が必要）。", "綴りは直して写しました: ofiice → office。ノートの hear は、n を h のように書く字の形から near と読みました（near this office＝今のオフィスの近く）。"], "audio": {"I’ve heard that one of the marketing managers is resigning. Her last day is the end of this month.": "audio_1-E-09_予習/bc4771507064.mp3", "I wonder if the marketing team will be OK without her. She was doing a great job. I wonder why she’s leaving.": "audio_1-E-09_予習/375cf50d5f54.mp3", "I hope they find a new manager soon.": "audio_1-E-09_予習/58b3bc808583.mp3", "my commute will be longer than before": "audio_1-E-09_予習/928ba82f22b6.mp3", "I've heard that ~": "audio_1-E-09_予習/59941bb8c18b.mp3", "I wonder why ~": "audio_1-E-09_予習/347207fdd15f.mp3", "I hope ~": "audio_1-E-09_予習/ec859b06ccbf.mp3", "It's still up in the air.": "audio_1-E-09_予習/acd0c25c2714.mp3", "It's not clear yet how many students will join.": "audio_1-E-09_予習/6029281a704c.mp3", "I don't know the details yet.": "audio_1-E-09_予習/f1079c43c724.mp3", "It's hard to say at this point.": "audio_1-E-09_予習/79ff756b3dba.mp3", "Let's hope for the best.": "audio_1-E-09_予習/065a980aef32.mp3", "I wonder if…": "audio_1-E-09_予習/a21c0f119467.mp3", "I wonder why…": "audio_1-E-09_予習/7ed744f99dd0.mp3", "I wonder what…": "audio_1-E-09_予習/79896f17ced5.mp3", "I wonder where…": "audio_1-E-09_予習/37bdf565c504.mp3", "I wonder when…": "audio_1-E-09_予習/920dff6940f2.mp3", "I wonder who…": "audio_1-E-09_予習/17598a00156a.mp3", "I wonder how…": "audio_1-E-09_予習/c7bd746c04d4.mp3", "I've heard I will be transferred to an overseas branch office. I wonder when it’s going to be. And I wonder where I’m getting transferred. I hope it will be an Asian country.": "audio_1-E-09_予習/8fb49fdfa419.mp3", "I've heard our company is moving to a new office building. I wonder if my commute will be longer than before. I wonder why we have to move a new office. I hope the new office is near this office.": "audio_1-E-09_予習/bd9b0269623b.mp3", "I've heard an influencer talked about our company in his vlog. I wonder what kind of vlog he made. And I wonder how he talked about my company in his vlog. I hope he didn't complain about my company.": "audio_1-E-09_予習/f37a82402c9a.mp3", "I've heard I will have a new boss, And She is a foreigner. I wonder how well she can speak Japanese. And I wonder why she came this company. I hope she is kind person.": "audio_1-E-09_予習/0fa5de07e8fb.mp3", "I've heard that a lot of students want to join our laboratory next year.": "audio_1-E-09_予習/bb3d83a46d95.mp3", "I wonder why our laboratory became popular with them. We have a lot to do in this lab. So I wonder if they really know about that.": "audio_1-E-09_予習/0d94e7adfba2.mp3", "I hope they can keep up with the workload in this lab.": "audio_1-E-09_予習/8d582b2523ce.mp3"}};
+const KEY = "bizprep_" + D.lesson;
+const store = { get(k, d){ try{ const v = localStorage.getItem(KEY + k); return v == null ? d : JSON.parse(v); }catch(e){ return d; } },
+                set(k, v){ try{ localStorage.setItem(KEY + k, JSON.stringify(v)); }catch(e){} } };
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const md = s => esc(s).replace(/\*\*(.+?)\*\*/g, "<b>$1</b>").replace(/\*(.+?)\*/g, "<i>$1</i>");
+const plain = s => String(s ?? "").replace(/\*/g, "");
+// 🔊 は英文の開閉と別のボタン（押しても表示状態は変わらない）
+const say = (t, label = "") => `<button type="button" class="say" data-say="${esc(plain(t))}" aria-label="${label ? esc(label) + "を" : "英文を"}読み上げ"><span aria-hidden="true">🔊</span>${label ? `<span class="sl">読み上げ</span>` : ""}</button>`;
+const en = text => `<div class="en s0" role="button" tabindex="0" aria-expanded="false"><span class="hint">タップで英語</span><span class="txt">${md(text)}</span></div>`;
+
+const talks = D.talks || [];
+const T = D.try || {}, hasTry = !!(T.items?.length || T.vocab?.length);
+const hasRv = !!D.review?.items?.length, hasSee = !!D.see?.length, hasAlts = !!D.alts?.length, hasPh = !!D.phrases?.length, hasNotes = !!D.notes?.length;
+
+let h = `<header class="head"><h1>${esc(D.title)}</h1><div class="meta"><span>${esc(D.lesson)}</span><span>テーマ: ${esc(D.theme)}</span><span>作成日: ${esc(D.date)}</span></div></header>`;
+// 固定バー: 目次（既存の見出しをそのまま使う。狭い画面では短く）＋英語の全体切り替え
+h += `<div class="bar"><nav class="toc" aria-label="ページ内の目次">`;
+if (hasRv) h += `<a href="#review"><span class="long">前回の</span>復習</a>`;
+if (hasSee) h += `<a href="#see">SEE<span class="long">&nbsp;— 教材の全文</span></a>`;
+if (hasTry) h += `<a href="#try">TRY<span class="long">&nbsp;— 役になって話す</span></a>`;
+if (talks.length) h += `<a href="#act">ACT<span class="long">&nbsp;— 話す文</span></a>`;
+if (hasAlts) h += `<a href="#alts">言い換え</a>`;
+if (hasPh) h += `<a href="#phSec"><span class="long">今回覚えたい英語</span>表現</a>`;
+if (hasNotes) h += `<a href="#memo">メモ</a>`;
+h += `</nav><div class="seg" role="group" aria-label="ACTと表現の英語"><span class="lb">英語</span><button type="button" class="modeBtn" data-s="0" aria-pressed="false">全部隠す</button><button type="button" class="modeBtn" data-s="2" aria-pressed="false">全部表示</button></div></div>`;
+
+// 前回の復習（ノート左下［復習］の表現。ウォームアップとしてSEEの前に置く）
+if (hasRv) {
+  const R = D.review;
+  h += `<section class="sec" id="review" aria-labelledby="h-rv"><h2 id="h-rv">前回の復習${R.from ? `<span class="tag">${esc(R.from)}</span>` : ""}</h2><p class="lead">${R.lead ? md(R.lead) : "前回の授業で習った表現。日本語を見て英語を言ってみる → タップで確認。"}</p><div class="rvlist">`;
+  R.items.forEach(p => {
+    h += `<article class="rv"><div class="rv-head"><span class="tag">復習</span><p class="ja">${md(p.ja)}</p></div><div class="en-row">${en(p.en)}${say(p.en)}</div>`;
+    if (p.note || p.ex) h += `<div class="ph-sub">${p.note ? `<p class="note">💡 ${md(p.note)}</p>` : ""}${p.ex ? `<p class="ex">例: ${md(p.ex)}</p>` : ""}</div>`;
+    h += `</article>`;
+  });
+  h += `</div></section>`;
+}
+
+// SEE 全文（常に表示）
+if (hasSee) {
+  h += `<section class="sec see" id="see" aria-labelledby="h-see"><h2 id="h-see"><span class="k">SEE</span> — 教材の全文</h2>${D.see_lead ? `<p class="lead">${md(D.see_lead)}</p>` : ""}`;
+  D.see.forEach(s => {
+    h += `<div class="see-it${s.heading ? "" : " cont"}">${s.heading ? `<h3>${esc(s.heading)}</h3>` : ""}<div class="see-row"><p class="see-en">${s.speaker ? `<span class="tag">${esc(s.speaker)}</span>` : ""}${md(s.en)}</p>${say(s.en)}</div></div>`;
+  });
+  h += `</section>`;
+}
+
+// TRY: VOCABULARY（英日とも常に表示）→ 教材の例（常に表示）→ 役ごとの自分の答え（ACTと同じ日英ペア・英文は開閉）
+if (hasTry) {
+  const info = p => p.info?.length ? `<dl class="info">${p.info.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${md(v)}</dd>`).join("")}</dl>` : "";
+  const who = p => `${p.no ? esc(p.no) + ". " : ""}${esc(p.name || "")}${p.role ? `<span class="tag">${esc(p.role)}</span>` : ""}`;
+  h += `<section class="sec" id="try" aria-labelledby="h-try"><h2 id="h-try"><span class="k">TRY</span> — 役になって話す</h2>${T.lead ? `<p class="lead">${md(T.lead)}</p>` : ""}`;
+  if (T.vocab?.length) {
+    h += `<div class="blk"><div class="blk-head"><h3>VOCABULARY</h3></div>${T.vocab_lead ? `<p class="lead">${md(T.vocab_lead)}</p>` : ""}<div class="vocab">`;
+    T.vocab.forEach(v => h += `<div class="voc"><div><p class="v-en">${md(v.en)}</p><p class="v-ja">${md(v.ja)}</p></div>${say(v.en)}</div>`);
+    h += `</div></div>`;
+  }
+  if (T.example?.en) {
+    const x = T.example;
+    h += `<div class="blk"><div class="blk-head"><h3>例: ${who(x)}</h3>${say(x.en, "例")}</div>${info(x)}<p class="see-en try-ex">${md(x.en)}</p></div>`;
+  }
+  (T.items || []).forEach(p => {
+    h += `<div class="blk"><div class="blk-head"><h3>${who(p)}</h3>${say(p.lines.map(l => l.en).join(" "), p.name || "この答え")}</div>${info(p)}`;
+    p.lines.forEach(l => h += `<div class="pair"><p class="ja">${md(l.ja)}</p>${en(l.en)}</div>`);
+    h += `</div>`;
+  });
+  h += `</section>`;
+}
+
+// ACT: 段落（区分）ごとに、日本語のすぐ横／下に対応する英文。🔊は段落の通し文（読み上げ単位は従来どおり）
+if (talks.length) {
+  h += `<section class="sec" id="act" aria-labelledby="h-act"><h2 id="h-act"><span class="k">ACT</span> — 話す文${talks.length === 1 ? `<span class="tag">${esc(talks[0].name)}</span>` : ""}</h2>`;
+  if (talks.length > 1) h += `<div class="talk-tabs" role="group" aria-label="内容">${talks.map((t, i) => `<button type="button" class="chip tabBtn" data-i="${i}" aria-pressed="false">${esc(t.name)}</button>`).join("")}</div>`;
+  talks.forEach((t, ti) => {
+    h += `<div class="talk" data-i="${ti}">${t.scene ? `<p class="scene">場面: ${md(t.scene)}</p>` : ""}`;
+    t.sections.forEach(s => {
+      h += `<div class="blk"><div class="blk-head"><h3>${esc(s.heading || "")}</h3>${say(s.lines.map(l => l.en).join(" "), s.heading || "この段落")}</div>`;
+      s.lines.forEach(l => h += `<div class="pair"><p class="ja">${md(l.ja)}</p>${en(l.en)}</div>`);
+      h += `</div>`;
+    });
+    // 話す長さの目安（1分 ≒ 130語）
+    const words = t.sections.flatMap(s => s.lines.map(l => plain(l.en))).join(" ").split(/\s+/).filter(Boolean).length;
+    const sec = Math.round(words / 130 * 60);
+    h += `<p class="len">約${words}語 ・ 話すと約${Math.floor(sec / 60)}分${String(sec % 60).padStart(2, "0")}秒</p>`;
+    h += `</div>`;
+  });
+  h += `</section>`;
+}
+
+if (hasAlts) {
+  h += `<section class="sec" id="alts" aria-labelledby="h-alts"><h2 id="h-alts">言い換えストック</h2><table class="tbl"><tr><th>表現</th><th>別の言い方</th></tr>`;
+  D.alts.forEach(a => h += `<tr><td>${md(a.from)}</td><td>${md(a.to)}</td></tr>`);
+  h += `</table></section>`;
+}
+// 今回覚えたい英語表現
+if (hasPh) {
+  h += `<section class="sec" id="phSec" aria-labelledby="h-ph"><h2 id="h-ph">今回覚えたい英語表現</h2><p class="lead">日本語を見て英語を言ってみる → タップで確認。言えたら「覚えた」。</p>`;
+  const srcCls = t => t === "ノート" ? "src-note" : t === "テーマ" ? "src-theme" : "";
+  const tags = new Set(D.phrases.map(p => p.tag));
+  if (tags.has("ノート") || tags.has("テーマ"))
+    h += `<div class="legend">${tags.has("ノート") ? `<span><i style="background:var(--src-note)"></i>ノート＝授業ノートの赤字</span>` : ""}${tags.has("テーマ") ? `<span><i style="background:var(--src-theme)"></i>テーマ＝Claudeが考えたテーマの表現</span>` : ""}</div>`;
+  h += `<div class="phtools"><button type="button" class="chip" id="hideDoneBtn" aria-pressed="false">覚えたものを隠す</button><span class="count" id="phCount" aria-live="polite"></span></div><div class="phlist">`;
+  D.phrases.forEach((p, i) => {
+    h += `<article class="ph ${srcCls(p.tag)}" data-i="${i}"><div class="ph-head">${p.tag ? `<span class="tag">${esc(p.tag)}</span>` : ""}<p class="ja">${md(p.ja)}</p><button type="button" class="done" aria-pressed="false">覚えた</button></div>`;
+    h += `<div class="en-row">${en(p.en)}${say(p.en)}</div>`;
+    if (p.note || p.ex) {
+      h += `<div class="ph-sub">`;
+      if (p.note) h += `<p class="note">💡 ${md(p.note)}</p>`;
+      if (p.ex) h += `<p class="ex">例: ${md(p.ex)}</p>`;
+      h += `</div>`;
+    }
+    h += `</article>`;
+  });
+  h += `</div></section>`;
+}
+if (hasNotes) h += `<section class="sec" id="memo" aria-labelledby="h-memo"><h2 id="h-memo">メモ</h2><ul class="memo">${D.notes.map(x => `<li>${md(x)}</li>`).join("")}</ul></section>`;
+
+const app = document.getElementById("app");
+app.innerHTML = h;
+
+// 読み上げ: 事前生成mp3（edge-tts Andrew）→ 無い・読み込めないときはブラウザ読み上げ
+let curAudio = null, curBtn = null;
+const mark = b => { if (curBtn) curBtn.classList.remove("playing"); curBtn = b; if (b) b.classList.add("playing"); };
+function tts(t, btn){
+  try{
+    const u = new SpeechSynthesisUtterance(t); u.lang = "en-US"; u.rate = 0.95;
+    u.onend = u.onerror = () => { if (curBtn === btn) mark(null); };
+    speechSynthesis.speak(u);
+  }catch(e){ mark(null); }
+}
+function stopAudio(){
+  if (curAudio){ curAudio.pause(); curAudio = null; }
+  try{ speechSynthesis.cancel(); }catch(e){}
+  mark(null);
+}
+function speak(t, btn){
+  stopAudio();
+  mark(btn);
+  const src = (D.audio || {})[t];
+  if (!src){ tts(t, btn); return; }
+  const a = new Audio(src); curAudio = a;
+  let fell = false;
+  const fallback = () => { if (fell || curAudio !== a) return; fell = true; curAudio = null; tts(t, btn); };
+  a.onerror = fallback;
+  a.onended = () => { if (curAudio === a){ curAudio = null; mark(null); } };
+  a.play().catch(err => { if (err && err.name === "AbortError") return; fallback(); });
+}
+
+// 英文の開閉
+const enEls = [...document.querySelectorAll(".en")];
+const modeBtns = [...document.querySelectorAll(".modeBtn")];
+const setState = (el, s) => { el.classList.remove("s0", "s2"); el.classList.add("s" + s); el.setAttribute("aria-expanded", s === 2 ? "true" : "false"); };
+// 全体ボタンの選択中表示は実際の状態に合わせる（全部隠れている／全部出ている／混在＝どちらも非選択）
+const syncMode = () => {
+  const shown = enEls.filter(x => x.classList.contains("s2")).length;
+  const s = shown === 0 ? 0 : shown === enEls.length ? 2 : -1;
+  modeBtns.forEach(m => m.setAttribute("aria-pressed", +m.dataset.s === s ? "true" : "false"));
+};
+const toggleEn = b => { setState(b, b.classList.contains("s0") ? 2 : 0); syncMode(); };
+document.addEventListener("click", e => {
+  const sb = e.target.closest(".say"); if (sb){ e.stopPropagation(); if (sb === curBtn) stopAudio(); else speak(sb.dataset.say, sb); return; }
+  const b = e.target.closest(".en");
+  if (b){ if (b.classList.contains("s2") && String(getSelection()).trim()) return; toggleEn(b); } // 文字を選択中は閉じない
+});
+document.addEventListener("keydown", e => {
+  const b = e.target.closest?.(".en");
+  if (b && (e.key === "Enter" || e.key === " ")){ e.preventDefault(); toggleEn(b); }
+});
+// 全部隠す／全部表示（復習・ACT・表現の英文が対象。SEEは常に表示）
+const setAll = s => { enEls.forEach(x => setState(x, s)); syncMode(); };
+modeBtns.forEach(m => m.onclick = () => setAll(+m.dataset.s));
+syncMode();
+// パターン切り替え
+const tabBtns = [...document.querySelectorAll(".tabBtn")];
+const showTalk = i => { document.querySelectorAll(".talk").forEach(t => t.classList.toggle("on", +t.dataset.i === i)); tabBtns.forEach(b => b.setAttribute("aria-pressed", +b.dataset.i === i ? "true" : "false")); store.set("tab", i); };
+tabBtns.forEach(b => b.onclick = () => showTalk(+b.dataset.i));
+showTalk(Math.min(store.get("tab", 0), Math.max(talks.length - 1, 0)));
+// 覚えた
+const phSec = document.getElementById("phSec");
+if (phSec) {
+  let done = store.get("done", []);
+  const refresh = () => {
+    phSec.querySelectorAll(".ph").forEach(p => {
+      const on = done.includes(+p.dataset.i);
+      p.classList.toggle("isdone", on);
+      const b = p.querySelector(".done");
+      b.setAttribute("aria-pressed", on ? "true" : "false");
+      b.innerHTML = `<span class="box" aria-hidden="true">${on ? "✓" : ""}</span>覚えた`;
+    });
+    const n = done.filter(i => i >= 0 && i < D.phrases.length).length;
+    document.getElementById("phCount").innerHTML = `覚えた ${n} / ${D.phrases.length}<span class="bar-mini" aria-hidden="true"><span style="width:${Math.round(n / D.phrases.length * 100)}%"></span></span>`;
+  };
+  phSec.querySelectorAll(".done").forEach(btn => btn.onclick = () => { const i = +btn.closest(".ph").dataset.i; done = done.includes(i) ? done.filter(x => x !== i) : [...done, i]; store.set("done", done); refresh(); });
+  const hdb = document.getElementById("hideDoneBtn");
+  hdb.onclick = () => { const on = !phSec.classList.contains("hideDone"); phSec.classList.toggle("hideDone", on); hdb.setAttribute("aria-pressed", on ? "true" : "false"); };
+  refresh();
+}
+// 目次: いま読んでいるセクションを示す
+const tocLinks = [...document.querySelectorAll(".toc a")];
+if ("IntersectionObserver" in window && tocLinks.length) {
+  const io = new IntersectionObserver(es => es.forEach(x => {
+    if (!x.isIntersecting) return;
+    tocLinks.forEach(a => a.setAttribute("aria-current", a.getAttribute("href") === "#" + x.target.id ? "true" : "false"));
+  }), { rootMargin: "-30% 0px -60% 0px" });
+  tocLinks.forEach(a => { const s = document.querySelector(a.getAttribute("href")); if (s) io.observe(s); });
+}
+// 目次が幅に収まらないときだけ横スワイプ（右端をぼかして続きを示す）。今のセクションのリンクは見える位置へ
+const toc = document.querySelector(".toc");
+const tocFit = () => toc.classList.toggle("ovf", toc.scrollWidth > toc.clientWidth + 1 && toc.scrollLeft + toc.clientWidth < toc.scrollWidth - 1);
+if (toc){ tocFit(); addEventListener("resize", tocFit); toc.addEventListener("scroll", tocFit, { passive: true });
+  new MutationObserver(() => { const a = toc.querySelector('[aria-current="true"]'); if (a && toc.scrollWidth > toc.clientWidth) toc.scrollTo({ left: a.offsetLeft - 16 }); }).observe(toc, { subtree: true, attributeFilter: ["aria-current"] }); }
+</script>
+</body>
+</html>
